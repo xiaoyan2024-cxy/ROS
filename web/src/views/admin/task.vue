@@ -64,14 +64,34 @@ import { createApi, listApi, updateApi, deleteApi } from '/@/api/admin/task';
 // 指定列对应的数据字段名称
 const columns = reactive([
     {
-        title: '任务描述',
+        title: '任务标题',
         dataIndex: 'title',
         key: 'title',
     },
+    {
+        title: '任务描述',
+        dataIndex: 'description',
+        key: 'description',
+    },
+    {
+        title: '使用数据',
+        dataIndex: 'ros',
+        key: 'ros',
+    },
+    {
+        title: '算法',
+        dataIndex: 'algorithm',
+        key: 'algorithm',
+    },
 
+    {
+        title: '任务结果',
+        dataIndex: 'evaluate_result',
+        key: 'evaluate_result',
+    },
+    
     { title: '创建时间', dataIndex: 'create_time', key: 'create_time' },
-    // { title: '算法描述', dataIndex: 'description', key: 'description' },
-    // { title: '状态', dataIndex: 'status', key: 'status' },
+ 
     {
         title: '操作',
         dataIndex: 'action',

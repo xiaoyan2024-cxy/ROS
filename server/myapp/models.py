@@ -80,7 +80,7 @@ class ROS(models.Model):
         ("1", "异常"),
     )
     id = models.BigAutoField(primary_key=True)
-    size=models.CharField(max_length=100, blank=True, null=True)
+    size = models.CharField(max_length=100, blank=True, null=True)
     uploader = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
@@ -102,6 +102,11 @@ class Task(models.Model):
         ("1", "FAILED"),
         ("2", "RAW_DATA_ERROR"),
     )
+    TASK_STATUS = (
+        ("0", "Submitted"),
+        ("1", "Running"),
+        ("2", "Finished"),
+    )
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -115,7 +120,7 @@ class Task(models.Model):
     evaluate_result = models.CharField(
         max_length=1, choices=EVALUATE_RESULT, default="0"
     )
-
+    status = models.CharField(max_length=1, choices=TASK_STATUS, default="0")
     def __str__(self):
         return self.description
 
