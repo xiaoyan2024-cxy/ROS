@@ -40,12 +40,13 @@ def login(request):
 
         if user.role in ['1', '3']:
             return APIResponse(code=1, msg='该帐号为后台管理员帐号')
-
+        
         data = {
             'username': username,
             'password': password,
             'token': md5value(username)  # 生成令牌
         }
+
         serializer = UserSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()

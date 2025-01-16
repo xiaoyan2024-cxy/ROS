@@ -74,8 +74,8 @@ def list_api(request):
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def create(request):
-    if isDemoAdminUser(request):
-        return APIResponse(code=1, msg='演示帐号无法操作')
+    # if isDemoAdminUser(request):
+    #     return APIResponse(code=1, msg='演示帐号无法操作')
 
     print(request.data)
     if not request.data.get('username', None) or not request.data.get('password', None):
@@ -99,8 +99,8 @@ def create(request):
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def update(request):
-    if isDemoAdminUser(request):
-        return APIResponse(code=1, msg='演示帐号无法操作')
+    # if isDemoAdminUser(request):
+    #     return APIResponse(code=1, msg='演示帐号无法操作')
 
     try:
         pk = request.GET.get('id', -1)
@@ -109,11 +109,16 @@ def update(request):
         return APIResponse(code=1, msg='对象不存在')
 
     data = request.data.copy()
+    # 不更新用户名和密码
     if 'username' in data.keys():
         del data['username']
     if 'password' in data.keys():
         del data['password']
+    
+    
+    # 根据传入的request内容更新user对象
     serializer = UserSerializer(user, data=data)
+
     print(serializer.is_valid())
     if serializer.is_valid():
         serializer.save()

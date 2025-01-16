@@ -6,6 +6,7 @@ from django.urls import reverse
 from myapp.auth.authentication import AdminTokenAuthtication
 from myapp.handler import APIResponse
 from myapp.models import Task
+from django.utils import timezone
 from myapp.permission.permission import isDemoAdminUser
 from myapp.serializers import TaskSerializer
 from myapp.utils import dict_fetchall
@@ -46,14 +47,18 @@ def update(request):
 
         pk = request.GET.get('id', -1)
         tasks = Task.objects.get(pk=pk)
+
     except Task.DoesNotExist:
         return APIResponse(code=1, msg='对象不存在')
+    
+    data = request.data.copy()
+    data['update_time'] = timezone.now()  # 设置更新时间
+    print(data)
 
-    serializer = TaskSerializer(tasks, data=request.data)
+    serializer = TaskSerializer(tasks, data=data)
     if serializer.is_valid():
         serializer.save()
         return APIResponse(code=0, msg='更新成功', data=serializer.data)
-
     return APIResponse(code=1, msg='更新失败')
 
 

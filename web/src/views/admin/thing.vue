@@ -167,6 +167,7 @@ const columns = reactive([
     key: 'description',
     customRender: ({ text, record, index, column }) => text ? text.substring(0, 10) + '...' : '--'
   },
+  
   {
     title: '操作',
     dataIndex: 'action',

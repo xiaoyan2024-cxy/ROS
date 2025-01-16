@@ -19,8 +19,8 @@ def list_api(request):
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def create(request):
-    if isDemoAdminUser(request):
-        return APIResponse(code=1, msg='演示帐号无法操作')
+    # if isDemoAdminUser(request):
+    #     return APIResponse(code=1, msg='演示帐号无法操作')
 
     serializer = AdSerializer(data=request.data)
     if serializer.is_valid():
@@ -28,6 +28,7 @@ def create(request):
         return APIResponse(code=0, msg='创建成功', data=serializer.data)
 
     return APIResponse(code=1, msg='创建失败')
+
 
 
 @api_view(['POST'])

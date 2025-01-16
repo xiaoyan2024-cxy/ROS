@@ -98,14 +98,15 @@ class ROS(models.Model):
 
 class Task(models.Model):
     EVALUATE_RESULT = (
-        ("0", "SUCCESS"),
-        ("1", "FAILED"),
-        ("2", "RAW_DATA_ERROR"),
+        ("0", "UNKNOWN"),
+        ("1", "SUCCESS"),
+        ("2", "FAILED"),
+        ("3", "RAW_DATA_ERROR"),
     )
     TASK_STATUS = (
-        ("0", "Submitted"),
-        ("1", "Running"),
-        ("2", "Finished"),
+        ("0", "SUBITTED"),
+        ("1", "RUNNING"),
+        ("2", "FINISHED"),
     )
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, blank=True, null=True)
@@ -116,11 +117,12 @@ class Task(models.Model):
     ros = models.ForeignKey(ROS, on_delete=models.CASCADE, blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True, null=True)
-    update_time = models.DateTimeField(auto_now_add=True, null=True)
+    update_time = models.DateTimeField(null=True)
     evaluate_result = models.CharField(
         max_length=1, choices=EVALUATE_RESULT, default="0"
     )
     status = models.CharField(max_length=1, choices=TASK_STATUS, default="0")
+
     def __str__(self):
         return self.description
 

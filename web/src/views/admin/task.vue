@@ -4,7 +4,6 @@
         <div class="page-view">
             <div class="table-operations">
                 <a-space>
-                    <a-button type="primary" @click="handleAdd">新增</a-button>
                     <a-button @click="handleBatchDelete">批量删除</a-button>
                 </a-space>
             </div>
@@ -20,6 +19,18 @@
                 }">
 
                 <template #bodyCell="{ text, record, index, column }">
+                    <template v-if="column.key === 'status'">
+                        <a-tag :color="getStatusColor(text)">
+                            {{ getStatusText(text) }}
+                        </a-tag>
+                    </template>
+
+                    <template v-if="column.key === 'evaluate_result'">
+                        <a-tag :color="getResultColor(text)">
+                            {{ getResultText(text) }}
+                        </a-tag>
+                    </template>
+
                     <template v-if="column.key === 'operation'">
                         <span>
                             <a @click="handleEdit(record)">编辑</a>
@@ -27,6 +38,12 @@
                             <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
                                 <a href="#">删除</a>
                             </a-popconfirm>
+
+                            <a-divider type="vertical" />
+                            <a-popconfirm title="确定取消?" ok-text="是" cancel-text="否" @confirm="confirmCancel(record)">
+                                <a href="#">取消</a>
+                            </a-popconfirm>
+
                         </span>
                     </template>
                 </template>
@@ -36,6 +53,7 @@
         <!--弹窗区域，绑定model属性到a-model组件-->
         <div>
 
+
             <a-modal :visible="modal.visile" :forceRender="true" :title="modal.title" ok-text="确认" cancel-text="取消"
                 @cancel="handleCancel" @ok="handleOk">
                 <div>
@@ -43,11 +61,42 @@
                         :rules="modal.rules">
                         <a-row :gutter="24">
                             <a-col span="24">
-                                <a-form-item label="算法名称" name="title">
+                                <a-form-item label="算法标题" name="title">
                                     <a-input placeholder="请输入" v-model:value="modal.form.title"></a-input>
                                 </a-form-item>
                             </a-col>
                         </a-row>
+
+                        <a-row :gutter="24">
+                            <a-col span="24">
+                                <a-form-item label="算法描述" name="description">
+                                    <a-input placeholder="请输入" v-model:value="modal.form.description"></a-input>
+                                </a-form-item>
+                            </a-col>
+                        </a-row>
+
+                        <a-col span="24">
+                            <a-form-item label="状态" name="status">
+                                <a-select placeholder="请选择" v-model:value="modal.form.status">
+                                    <a-select-option value="0">SUBMITTED</a-select-option>
+                                    <a-select-option value="1">RUNNING</a-select-option>
+                                    <a-select-option value="2">FINISHED</a-select-option>
+                                </a-select>
+                            </a-form-item>
+                        </a-col>
+
+
+                        <a-col span="24">
+                            <a-form-item label="运行结果" name="evaluate_result">
+                                <a-select placeholder="请选择" v-model:value="modal.form.evaluate_result">
+                                    <a-select-option value="0">UNKNOWN</a-select-option>
+                                    <a-select-option value="1">SUCCESS</a-select-option>
+                                    <a-select-option value="2">FAILED</a-select-option>
+                                    <a-select-option value="3">RAW_DATA_ERROR</a-select-option>
+                                </a-select>
+                            </a-form-item>
+                        </a-col>
+
                     </a-form>
                 </div>
 
@@ -78,6 +127,13 @@ const columns = reactive([
         dataIndex: 'ros',
         key: 'ros',
     },
+
+    {
+        title: '状态',
+        dataIndex: 'status',
+        key: 'status',
+    },
+
     {
         title: '算法',
         dataIndex: 'algorithm',
@@ -89,9 +145,13 @@ const columns = reactive([
         dataIndex: 'evaluate_result',
         key: 'evaluate_result',
     },
-    
-    { title: '创建时间', dataIndex: 'create_time', key: 'create_time' },
- 
+
+    {
+        title: '更新时间',
+        dataIndex: 'update_time',
+        key: 'update_time'
+    },
+
     {
         title: '操作',
         dataIndex: 'action',
@@ -102,6 +162,61 @@ const columns = reactive([
     },
 ]);
 
+
+const TASK_STATUS = {
+    "0": "SUBMITTED",
+    "1": "RUNNING",
+    "2": "FINISHED"
+};
+
+
+const EVALUATE_RESULT = {
+    "0": "UNKNOWN",
+    "1": "SUCCESS",
+    "2": "FAILED",
+    "3": "RAW_DATA_ERROR",
+};
+
+const getResultText = (status) => {
+    return EVALUATE_RESULT[status] || 'Unknown';
+};
+
+
+const getResultColor = (status) => {
+    switch (status) {
+        case "0":
+            return '#d9d9d9'; // Grey for Unknown
+
+        case "1":
+            return '#87d068'; // Green for Success
+
+        case "2":
+            return '#f50'; // Red for Unknown
+
+        case "3":
+            return '#ffbf00'; // Yellow for RAW_DATA_ERROR
+
+        default:
+            return '#d9d9d9'; // Default color for any other status
+    }
+};
+
+const getStatusText = (status) => {
+    return TASK_STATUS[status] || 'Unknown';
+};
+
+const getStatusColor = (status) => {
+    switch (status) {
+        case "0":
+            return '#d9d9d9'; // Grey for Submitted
+        case "1":
+            return '#2db7f5'; // Blue for Running
+        case "2":
+            return '#87d068'; // Green for Finished
+        default:
+            return '#f50'; // Red for Unknown
+    }
+};
 const data = reactive({
     userList: [],
     loading: false,
@@ -121,9 +236,13 @@ const modal = reactive({
         id: undefined,
         key: undefined,
         title: undefined,
+        description: undefined,
+        status: undefined,
+        evaluate_result: undefined,
     },
     rules: {
         title: [{ required: true, message: '请输入', trigger: 'change' }],
+        description: [{ required: true, message: '请输入', trigger: 'change' }],
     },
 });
 
@@ -175,6 +294,25 @@ const handleAdd = () => {
 };
 
 
+const handleCancelTask = (record) => {
+    console.log("--handleEdit---")
+    console.log(record)
+    resetModal();
+    modal.visile = true;
+    modal.editFlag = true;
+    modal.title = '编辑';
+    // 重置
+
+    for (const key in modal.form) {
+        modal.form[key] = undefined;
+    }
+
+    for (const key in record) {
+        console.log("key: " + key)
+        modal.form[key] = record[key];
+    }
+};
+
 const handleEdit = (record) => {
     console.log("--handleEdit---")
     console.log(record)
@@ -204,6 +342,19 @@ const confirmDelete = (record: any) => {
             message.error(err.msg || '删除失败');
         });
 };
+
+
+const confirmCancel = (record: any) => {
+    console.log('delete', record);
+    deleteApi({ ids: record.id })
+        .then((res) => {
+            getDataList();
+        })
+        .catch((err) => {
+            message.error(err.msg || '删除失败');
+        });
+};
+
 
 
 const handleBatchDelete = () => {
