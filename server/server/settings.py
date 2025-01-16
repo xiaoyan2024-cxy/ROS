@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'python_food',
+        'NAME': 'python_ROS',
         'USER': 'root',
         'PASSWORD': '1234',
         'HOST': '127.0.0.1',
@@ -132,6 +132,7 @@ DATETIME_FORMAT = 'Y-m-d H:i:s'
 # 上传文件路径
 # 并在urls.py配置+static
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload/')
+
 MEDIA_URL = '/upload/'
 
 # Static files (CSS, JavaScript, Images)

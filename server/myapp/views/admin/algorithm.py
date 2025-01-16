@@ -1,38 +1,42 @@
 # Create your views here.
+from django.db import connection
+from django.db.models import Q
 from rest_framework.decorators import api_view, authentication_classes
-
-from myapp import utils
+from django.urls import reverse
 from myapp.auth.authentication import AdminTokenAuthtication
 from myapp.handler import APIResponse
-from myapp.models import Tag
+from myapp.models import Algorithm
 from myapp.permission.permission import isDemoAdminUser
-from myapp.serializers import TagSerializer
+from myapp.serializers import AlgorithmSerializer
+from myapp.utils import dict_fetchall
+
 
 
 @api_view(['GET'])
 def list_api(request):
     if request.method == 'GET':
-        tags = Tag.objects.all().order_by('-create_time')
-        serializer = TagSerializer(tags, many=True)
+        algorithms = Algorithm.objects.all().order_by('-create_time')
+        serializer = AlgorithmSerializer(algorithms, many=True)
         return APIResponse(code=0, msg='查询成功', data=serializer.data)
 
 
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def create(request):
-    if isDemoAdminUser(request):
-        return APIResponse(code=1, msg='演示帐号无法操作')
+    # if isDemoAdminUser(request):
+    #     return APIResponse(code=1, msg='演示帐号无法操作')
+    
+    print("----inside /authentication/create")
+    print(request.data)
+    algorithms = Algorithm.objects.filter(title=request.data['title'])
 
-    tags = Tag.objects.filter(title=request.data['title'])
-    if len(tags) > 0:
+    if len(algorithms) > 0:
         return APIResponse(code=1, msg='该名称已存在')
+    serializer = AlgorithmSerializer(data=request.data)
 
-    serializer = TagSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return APIResponse(code=0, msg='创建成功', data=serializer.data)
-    else:
-        utils.log_error(request, '参数错误')
 
     return APIResponse(code=1, msg='创建失败')
 
@@ -40,38 +44,37 @@ def create(request):
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def update(request):
-    if isDemoAdminUser(request):
-        return APIResponse(code=1, msg='演示帐号无法操作')
+    # if isDemoAdminUser(request):
+    #     return APIResponse(code=1, msg='演示帐号无法操作')
 
     try:
+        print("request.GET in /myapp/admin/classification/update")
+        print(request.GET)
+        print(request.data)
+
         pk = request.GET.get('id', -1)
-        tags = Tag.objects.get(pk=pk)
-    except Tag.DoesNotExist:
+        algorithms = Algorithm.objects.get(pk=pk)
+    except Algorithm.DoesNotExist:
         return APIResponse(code=1, msg='对象不存在')
 
-    serializer = TagSerializer(tags, data=request.data)
+    serializer = AlgorithmSerializer(algorithms, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return APIResponse(code=0, msg='更新成功', data=serializer.data)
-    else:
-        utils.log_error(request, '参数错误')
 
     return APIResponse(code=1, msg='更新失败')
 
-# 批量删除
+
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def delete(request):
-    if isDemoAdminUser(request):
-        return APIResponse(code=1, msg='演示帐号无法操作')
-
+    # if isDemoAdminUser(request):
+    #     return APIResponse(code=1, msg='演示帐号无法操作')
     try:
         ids = request.GET.get('ids')
         ids_arr = ids.split(',')
-        
-        # id__in 查询表达式: 用于检查字段的值是否在给定的列表或查询集中。
-        Tag.objects.filter(id__in=ids_arr).delete()
-    except Tag.DoesNotExist:
+   
+        Algorithm.objects.filter(Q(id__in=ids_arr)).delete()
+    except Algorithm.DoesNotExist:
         return APIResponse(code=1, msg='对象不存在')
-
     return APIResponse(code=0, msg='删除成功')

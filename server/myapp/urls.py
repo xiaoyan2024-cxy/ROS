@@ -2,7 +2,9 @@ from django.urls import path
 
 from myapp import views
 
+# 指定应用名称，应用命名空间
 app_name = 'myapp'
+
 urlpatterns = [
     # 后台管理api
     path('admin/overview/count', views.admin.overview.count),
@@ -20,6 +22,13 @@ urlpatterns = [
     path('admin/classification/create', views.admin.classification.create),
     path('admin/classification/update', views.admin.classification.update),
     path('admin/classification/delete', views.admin.classification.delete),
+
+
+    path('admin/algorithm/list', views.admin.algorithm.list_api),
+    path('admin/algorithm/create', views.admin.algorithm.create),
+    path('admin/algorithm/update', views.admin.algorithm.update),
+    path('admin/algorithm/delete', views.admin.algorithm.delete),
+
     path('admin/tag/list', views.admin.tag.list_api),
     path('admin/tag/create', views.admin.tag.create),
     path('admin/tag/update', views.admin.tag.update),

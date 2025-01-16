@@ -2,7 +2,7 @@
 from django.db import connection
 from django.db.models import Q
 from rest_framework.decorators import api_view, authentication_classes
-
+from django.urls import reverse
 from myapp.auth.authentication import AdminTokenAuthtication
 from myapp.handler import APIResponse
 from myapp.models import Classification
@@ -22,14 +22,17 @@ def list_api(request):
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def create(request):
-    if isDemoAdminUser(request):
-        return APIResponse(code=1, msg='演示帐号无法操作')
-
+    # if isDemoAdminUser(request):
+    #     return APIResponse(code=1, msg='演示帐号无法操作')
+    
+    print("----inside /authentication/create")
+    print(request.data)
     classification = Classification.objects.filter(title=request.data['title'])
+
     if len(classification) > 0:
         return APIResponse(code=1, msg='该名称已存在')
-
     serializer = ClassificationSerializer(data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return APIResponse(code=0, msg='创建成功', data=serializer.data)
@@ -44,8 +47,11 @@ def update(request):
         return APIResponse(code=1, msg='演示帐号无法操作')
 
     try:
+        print("request.GET in /myapp/admin/classification/update")
+        print(request.GET)
+        print(request.data)
+
         pk = request.GET.get('id', -1)
-        print(pk)
         classification = Classification.objects.get(pk=pk)
     except Classification.DoesNotExist:
         return APIResponse(code=1, msg='对象不存在')
@@ -63,7 +69,6 @@ def update(request):
 def delete(request):
     if isDemoAdminUser(request):
         return APIResponse(code=1, msg='演示帐号无法操作')
-
     try:
         ids = request.GET.get('ids')
         ids_arr = ids.split(',')

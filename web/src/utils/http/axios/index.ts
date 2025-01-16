@@ -26,6 +26,7 @@ service.interceptors.request.use(
   },
 );
 
+
 // axios实例拦截响应
 service.interceptors.response.use(
   (response: AxiosResponse) => {
@@ -64,6 +65,7 @@ const request = <T = any>(config: AxiosRequestConfig): Promise<T> => {
     });
   });
 };
+
 
 export function get<T = any>(config: AxiosRequestConfig): Promise<T> {
   return request({ ...config, method: 'GET' });

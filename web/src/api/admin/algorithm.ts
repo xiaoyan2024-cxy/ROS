@@ -1,11 +1,12 @@
 import { get, post } from '/@/utils/http/axios';
 
 enum URL {
-    list = '/myapp/admin/classification/list',
-    create = '/myapp/admin/classification/create',
-    update = '/myapp/admin/classification/update',
-    delete = '/myapp/admin/classification/delete',
+    list = '/myapp/admin/algorithm/list',
+    create = '/myapp/admin/algorithm/create',
+    update = '/myapp/admin/algorithm/update',
+    delete = '/myapp/admin/algorithm/delete',
 }
+
 
 const listApi = async (params: any) => get<any>({ url: URL.list, params: params, data: {}, headers: {} });
 const createApi = async (data: any) =>

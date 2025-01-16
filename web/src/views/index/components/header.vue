@@ -8,6 +8,7 @@
       <input placeholder="输入关键词" ref="keywordRef" @keyup.enter="search"/>
     </div>
     <div class="right-view">
+      <!--   http://localhost:8000/admin  链接会在新窗口或新标签页中打开-->
       <a href="/admin" target="__black" type="a-link" style="line-height: 32px;width:60px;">后台入口</a>
       <template v-if="userStore.user_token">
         <a-dropdown>

@@ -12,4 +12,5 @@ const setToken = (token: string) => {
 const clearToken = () => {
   localStorage.removeItem(TokenKey);
 };
+
 export { TokenPrefix, isLogin, getToken, setToken, clearToken };

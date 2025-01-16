@@ -1,3 +1,5 @@
+
+// defineStore 是 pinia 库提供的一个方法，用于定义一个存储模块（store
 import { defineStore } from 'pinia';
 import {loginApi as adminLogin} from '/@/api/admin/user';
 import {userLoginApi} from '/@/api/index/user';
@@ -5,7 +7,9 @@ import { setToken, clearToken } from '/@/utils/auth';
 import { UserState } from './types';
 import {USER_ID, USER_NAME, USER_TOKEN, ADMIN_USER_ID,ADMIN_USER_NAME,ADMIN_USER_TOKEN} from "/@/store/constants";
 
+// 主要用于管理用户的登录状态和信息
 export const useUserStore = defineStore('user', {
+  // state 是一个函数，返回一个对象，该对象包含了存储模块的所有状态属性。
   state: (): UserState => ({
     user_id: undefined,
     user_name: undefined,
@@ -15,7 +19,11 @@ export const useUserStore = defineStore('user', {
     admin_user_name: undefined,
     admin_user_token: undefined,
   }),
+
+  // getters 是计算属性，用于从state派生出新的状态。
   getters: {},
+
+  // actions 是方法，用于定义可以改变state的业务逻辑。
   actions: {
     // 用户登录
     async login(loginForm) {
@@ -34,9 +42,9 @@ export const useUserStore = defineStore('user', {
         localStorage.setItem(USER_NAME, result.data.username)
         localStorage.setItem(USER_ID, result.data.id)
       }
-
       return result;
     },
+
     // 用户登出
     async logout() {
       // await userLogout();
@@ -51,6 +59,7 @@ export const useUserStore = defineStore('user', {
       })
     },
 
+
     // 管理员登录
     async adminLogin(loginForm) {
       const result = await adminLogin(loginForm);
@@ -58,19 +67,21 @@ export const useUserStore = defineStore('user', {
 
       if(result.code === 0) {
         this.$patch((state)=>{
+          // state 参数在 pinia 中是自动注入的
           state.admin_user_id = result.data.id
           state.admin_user_name = result.data.username
           state.admin_user_token = result.data.admin_token
           console.log('state==>', state)
         })
 
+        // Web 存储机制，用于在客户端浏览器中存储数据
         localStorage.setItem(ADMIN_USER_TOKEN, result.data.admin_token)
         localStorage.setItem(ADMIN_USER_NAME, result.data.username)
         localStorage.setItem(ADMIN_USER_ID, result.data.id)
       }
-
       return result;
     },
+
     // 管理员登出
     async adminLogout() {
       // await userLogout();

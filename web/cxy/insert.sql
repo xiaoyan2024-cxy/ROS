@@ -1,324 +1,92 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : localhost连接
- Source Server Type    : MySQL
- Source Server Version : 50737
- Source Host           : localhost:3306
- Source Schema         : python_food
-
- Target Server Type    : MySQL
- Target Server Version : 50737
- File Encoding         : 65001
-
- Date: 27/06/2023 19:10:35
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for auth_group
--- ----------------------------
-DROP TABLE IF EXISTS `auth_group`;
-CREATE TABLE `auth_group`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of auth_group
--- ----------------------------
-
--- ----------------------------
--- Table structure for auth_group_permissions
--- ----------------------------
-DROP TABLE IF EXISTS `auth_group_permissions`;
-CREATE TABLE `auth_group_permissions`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `auth_group_permissions_group_id_permission_id_0cd325b0_uniq`(`group_id`, `permission_id`) USING BTREE,
-  INDEX `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm`(`permission_id`) USING BTREE,
-  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of auth_group_permissions
--- ----------------------------
-
--- ----------------------------
--- Table structure for auth_permission
--- ----------------------------
-DROP TABLE IF EXISTS `auth_permission`;
-CREATE TABLE `auth_permission`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `content_type_id` int(11) NOT NULL,
-  `codename` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `auth_permission_content_type_id_codename_01ab375a_uniq`(`content_type_id`, `codename`) USING BTREE,
-  CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 85 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of auth_permission
--- ----------------------------
-INSERT INTO `auth_permission` VALUES (1, 'Can add log entry', 1, 'add_logentry');
-INSERT INTO `auth_permission` VALUES (2, 'Can change log entry', 1, 'change_logentry');
-INSERT INTO `auth_permission` VALUES (3, 'Can delete log entry', 1, 'delete_logentry');
-INSERT INTO `auth_permission` VALUES (4, 'Can view log entry', 1, 'view_logentry');
-INSERT INTO `auth_permission` VALUES (5, 'Can add permission', 2, 'add_permission');
-INSERT INTO `auth_permission` VALUES (6, 'Can change permission', 2, 'change_permission');
-INSERT INTO `auth_permission` VALUES (7, 'Can delete permission', 2, 'delete_permission');
-INSERT INTO `auth_permission` VALUES (8, 'Can view permission', 2, 'view_permission');
-INSERT INTO `auth_permission` VALUES (9, 'Can add group', 3, 'add_group');
-INSERT INTO `auth_permission` VALUES (10, 'Can change group', 3, 'change_group');
-INSERT INTO `auth_permission` VALUES (11, 'Can delete group', 3, 'delete_group');
-INSERT INTO `auth_permission` VALUES (12, 'Can view group', 3, 'view_group');
-INSERT INTO `auth_permission` VALUES (13, 'Can add user', 4, 'add_user');
-INSERT INTO `auth_permission` VALUES (14, 'Can change user', 4, 'change_user');
-INSERT INTO `auth_permission` VALUES (15, 'Can delete user', 4, 'delete_user');
-INSERT INTO `auth_permission` VALUES (16, 'Can view user', 4, 'view_user');
-INSERT INTO `auth_permission` VALUES (17, 'Can add content type', 5, 'add_contenttype');
-INSERT INTO `auth_permission` VALUES (18, 'Can change content type', 5, 'change_contenttype');
-INSERT INTO `auth_permission` VALUES (19, 'Can delete content type', 5, 'delete_contenttype');
-INSERT INTO `auth_permission` VALUES (20, 'Can view content type', 5, 'view_contenttype');
-INSERT INTO `auth_permission` VALUES (21, 'Can add session', 6, 'add_session');
-INSERT INTO `auth_permission` VALUES (22, 'Can change session', 6, 'change_session');
-INSERT INTO `auth_permission` VALUES (23, 'Can delete session', 6, 'delete_session');
-INSERT INTO `auth_permission` VALUES (24, 'Can view session', 6, 'view_session');
-INSERT INTO `auth_permission` VALUES (25, 'Can add ad', 7, 'add_ad');
-INSERT INTO `auth_permission` VALUES (26, 'Can change ad', 7, 'change_ad');
-INSERT INTO `auth_permission` VALUES (27, 'Can delete ad', 7, 'delete_ad');
-INSERT INTO `auth_permission` VALUES (28, 'Can view ad', 7, 'view_ad');
-INSERT INTO `auth_permission` VALUES (29, 'Can add classification', 8, 'add_classification');
-INSERT INTO `auth_permission` VALUES (30, 'Can change classification', 8, 'change_classification');
-INSERT INTO `auth_permission` VALUES (31, 'Can delete classification', 8, 'delete_classification');
-INSERT INTO `auth_permission` VALUES (32, 'Can view classification', 8, 'view_classification');
-INSERT INTO `auth_permission` VALUES (33, 'Can add error log', 9, 'add_errorlog');
-INSERT INTO `auth_permission` VALUES (34, 'Can change error log', 9, 'change_errorlog');
-INSERT INTO `auth_permission` VALUES (35, 'Can delete error log', 9, 'delete_errorlog');
-INSERT INTO `auth_permission` VALUES (36, 'Can view error log', 9, 'view_errorlog');
-INSERT INTO `auth_permission` VALUES (37, 'Can add login log', 10, 'add_loginlog');
-INSERT INTO `auth_permission` VALUES (38, 'Can change login log', 10, 'change_loginlog');
-INSERT INTO `auth_permission` VALUES (39, 'Can delete login log', 10, 'delete_loginlog');
-INSERT INTO `auth_permission` VALUES (40, 'Can view login log', 10, 'view_loginlog');
-INSERT INTO `auth_permission` VALUES (41, 'Can add notice', 11, 'add_notice');
-INSERT INTO `auth_permission` VALUES (42, 'Can change notice', 11, 'change_notice');
-INSERT INTO `auth_permission` VALUES (43, 'Can delete notice', 11, 'delete_notice');
-INSERT INTO `auth_permission` VALUES (44, 'Can view notice', 11, 'view_notice');
-INSERT INTO `auth_permission` VALUES (45, 'Can add op log', 12, 'add_oplog');
-INSERT INTO `auth_permission` VALUES (46, 'Can change op log', 12, 'change_oplog');
-INSERT INTO `auth_permission` VALUES (47, 'Can delete op log', 12, 'delete_oplog');
-INSERT INTO `auth_permission` VALUES (48, 'Can view op log', 12, 'view_oplog');
-INSERT INTO `auth_permission` VALUES (49, 'Can add tag', 13, 'add_tag');
-INSERT INTO `auth_permission` VALUES (50, 'Can change tag', 13, 'change_tag');
-INSERT INTO `auth_permission` VALUES (51, 'Can delete tag', 13, 'delete_tag');
-INSERT INTO `auth_permission` VALUES (52, 'Can view tag', 13, 'view_tag');
-INSERT INTO `auth_permission` VALUES (53, 'Can add user', 14, 'add_user');
-INSERT INTO `auth_permission` VALUES (54, 'Can change user', 14, 'change_user');
-INSERT INTO `auth_permission` VALUES (55, 'Can delete user', 14, 'delete_user');
-INSERT INTO `auth_permission` VALUES (56, 'Can view user', 14, 'view_user');
-INSERT INTO `auth_permission` VALUES (57, 'Can add thing', 15, 'add_thing');
-INSERT INTO `auth_permission` VALUES (58, 'Can change thing', 15, 'change_thing');
-INSERT INTO `auth_permission` VALUES (59, 'Can delete thing', 15, 'delete_thing');
-INSERT INTO `auth_permission` VALUES (60, 'Can view thing', 15, 'view_thing');
-INSERT INTO `auth_permission` VALUES (61, 'Can add record', 16, 'add_record');
-INSERT INTO `auth_permission` VALUES (62, 'Can change record', 16, 'change_record');
-INSERT INTO `auth_permission` VALUES (63, 'Can delete record', 16, 'delete_record');
-INSERT INTO `auth_permission` VALUES (64, 'Can view record', 16, 'view_record');
-INSERT INTO `auth_permission` VALUES (65, 'Can add order log', 17, 'add_orderlog');
-INSERT INTO `auth_permission` VALUES (66, 'Can change order log', 17, 'change_orderlog');
-INSERT INTO `auth_permission` VALUES (67, 'Can delete order log', 17, 'delete_orderlog');
-INSERT INTO `auth_permission` VALUES (68, 'Can view order log', 17, 'view_orderlog');
-INSERT INTO `auth_permission` VALUES (69, 'Can add order', 18, 'add_order');
-INSERT INTO `auth_permission` VALUES (70, 'Can change order', 18, 'change_order');
-INSERT INTO `auth_permission` VALUES (71, 'Can delete order', 18, 'delete_order');
-INSERT INTO `auth_permission` VALUES (72, 'Can view order', 18, 'view_order');
-INSERT INTO `auth_permission` VALUES (73, 'Can add comment', 19, 'add_comment');
-INSERT INTO `auth_permission` VALUES (74, 'Can change comment', 19, 'change_comment');
-INSERT INTO `auth_permission` VALUES (75, 'Can delete comment', 19, 'delete_comment');
-INSERT INTO `auth_permission` VALUES (76, 'Can view comment', 19, 'view_comment');
-INSERT INTO `auth_permission` VALUES (77, 'Can add banner', 20, 'add_banner');
-INSERT INTO `auth_permission` VALUES (78, 'Can change banner', 20, 'change_banner');
-INSERT INTO `auth_permission` VALUES (79, 'Can delete banner', 20, 'delete_banner');
-INSERT INTO `auth_permission` VALUES (80, 'Can view banner', 20, 'view_banner');
-INSERT INTO `auth_permission` VALUES (81, 'Can add address', 21, 'add_address');
-INSERT INTO `auth_permission` VALUES (82, 'Can change address', 21, 'change_address');
-INSERT INTO `auth_permission` VALUES (83, 'Can delete address', 21, 'delete_address');
-INSERT INTO `auth_permission` VALUES (84, 'Can view address', 21, 'view_address');
-
--- ----------------------------
--- Table structure for auth_user
--- ----------------------------
-DROP TABLE IF EXISTS `auth_user`;
-CREATE TABLE `auth_user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `last_login` datetime(6) NULL DEFAULT NULL,
-  `is_superuser` tinyint(1) NOT NULL,
-  `username` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `first_name` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `last_name` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `email` varchar(254) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `is_staff` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of auth_user
--- ----------------------------
-
--- ----------------------------
--- Table structure for auth_user_groups
--- ----------------------------
-DROP TABLE IF EXISTS `auth_user_groups`;
-CREATE TABLE `auth_user_groups`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `auth_user_groups_user_id_group_id_94350c0c_uniq`(`user_id`, `group_id`) USING BTREE,
-  INDEX `auth_user_groups_group_id_97559544_fk_auth_group_id`(`group_id`) USING BTREE,
-  CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of auth_user_groups
--- ----------------------------
-
--- ----------------------------
--- Table structure for auth_user_user_permissions
--- ----------------------------
-DROP TABLE IF EXISTS `auth_user_user_permissions`;
-CREATE TABLE `auth_user_user_permissions`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq`(`user_id`, `permission_id`) USING BTREE,
-  INDEX `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm`(`permission_id`) USING BTREE,
-  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of auth_user_user_permissions
--- ----------------------------
-
--- ----------------------------
--- Table structure for b_ad
--- ----------------------------
-DROP TABLE IF EXISTS `b_ad`;
-CREATE TABLE `b_ad`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `link` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_ad
--- ----------------------------
-
--- ----------------------------
--- Table structure for b_address
--- ----------------------------
-DROP TABLE IF EXISTS `b_address`;
-CREATE TABLE `b_address`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `mobile` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `desc` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `default` tinyint(1) NULL DEFAULT NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `b_address_user_id_a37a8d6a_fk_b_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `b_address_user_id_a37a8d6a_fk_b_user_id` FOREIGN KEY (`user_id`) REFERENCES `b_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_address
--- ----------------------------
-INSERT INTO `b_address` VALUES (1, '刘德华', '333', '3333', 0, '2023-06-25 18:53:22.681173', 2);
+-- INSERT INTO `auth_permission` VALUES (2, 'Can change log entry', 1, 'change_logentry');
+-- INSERT INTO `auth_permission` VALUES (3, 'Can delete log entry', 1, 'delete_logentry');
+-- INSERT INTO `auth_permission` VALUES (4, 'Can view log entry', 1, 'view_logentry');
+-- INSERT INTO `auth_permission` VALUES (5, 'Can add permission', 2, 'add_permission');
+-- INSERT INTO `auth_permission` VALUES (6, 'Can change permission', 2, 'change_permission');
+-- INSERT INTO `auth_permission` VALUES (7, 'Can delete permission', 2, 'delete_permission');
+-- INSERT INTO `auth_permission` VALUES (8, 'Can view permission', 2, 'view_permission');
+-- INSERT INTO `auth_permission` VALUES (9, 'Can add group', 3, 'add_group');
+-- INSERT INTO `auth_permission` VALUES (10, 'Can change group', 3, 'change_group');
+-- INSERT INTO `auth_permission` VALUES (11, 'Can delete group', 3, 'delete_group');
+-- INSERT INTO `auth_permission` VALUES (12, 'Can view group', 3, 'view_group');
+-- INSERT INTO `auth_permission` VALUES (13, 'Can add user', 4, 'add_user');
+-- INSERT INTO `auth_permission` VALUES (14, 'Can change user', 4, 'change_user');
+-- INSERT INTO `auth_permission` VALUES (15, 'Can delete user', 4, 'delete_user');
+-- INSERT INTO `auth_permission` VALUES (16, 'Can view user', 4, 'view_user');
+-- INSERT INTO `auth_permission` VALUES (17, 'Can add content type', 5, 'add_contenttype');
+-- INSERT INTO `auth_permission` VALUES (18, 'Can change content type', 5, 'change_contenttype');
+-- INSERT INTO `auth_permission` VALUES (19, 'Can delete content type', 5, 'delete_contenttype');
+-- INSERT INTO `auth_permission` VALUES (20, 'Can view content type', 5, 'view_contenttype');
+-- INSERT INTO `auth_permission` VALUES (21, 'Can add session', 6, 'add_session');
+-- INSERT INTO `auth_permission` VALUES (22, 'Can change session', 6, 'change_session');
+-- INSERT INTO `auth_permission` VALUES (23, 'Can delete session', 6, 'delete_session');
+-- INSERT INTO `auth_permission` VALUES (24, 'Can view session', 6, 'view_session');
+-- INSERT INTO `auth_permission` VALUES (25, 'Can add ad', 7, 'add_ad');
+-- INSERT INTO `auth_permission` VALUES (26, 'Can change ad', 7, 'change_ad');
+-- INSERT INTO `auth_permission` VALUES (27, 'Can delete ad', 7, 'delete_ad');
+-- INSERT INTO `auth_permission` VALUES (28, 'Can view ad', 7, 'view_ad');
+-- INSERT INTO `auth_permission` VALUES (29, 'Can add classification', 8, 'add_classification');
+-- INSERT INTO `auth_permission` VALUES (30, 'Can change classification', 8, 'change_classification');
+-- INSERT INTO `auth_permission` VALUES (31, 'Can delete classification', 8, 'delete_classification');
+-- INSERT INTO `auth_permission` VALUES (32, 'Can view classification', 8, 'view_classification');
+-- INSERT INTO `auth_permission` VALUES (33, 'Can add error log', 9, 'add_errorlog');
+-- INSERT INTO `auth_permission` VALUES (34, 'Can change error log', 9, 'change_errorlog');
+-- INSERT INTO `auth_permission` VALUES (35, 'Can delete error log', 9, 'delete_errorlog');
+-- INSERT INTO `auth_permission` VALUES (36, 'Can view error log', 9, 'view_errorlog');
+-- INSERT INTO `auth_permission` VALUES (37, 'Can add login log', 10, 'add_loginlog');
+-- INSERT INTO `auth_permission` VALUES (38, 'Can change login log', 10, 'change_loginlog');
+-- INSERT INTO `auth_permission` VALUES (39, 'Can delete login log', 10, 'delete_loginlog');
+-- INSERT INTO `auth_permission` VALUES (40, 'Can view login log', 10, 'view_loginlog');
+-- INSERT INTO `auth_permission` VALUES (41, 'Can add notice', 11, 'add_notice');
+-- INSERT INTO `auth_permission` VALUES (42, 'Can change notice', 11, 'change_notice');
+-- INSERT INTO `auth_permission` VALUES (43, 'Can delete notice', 11, 'delete_notice');
+-- INSERT INTO `auth_permission` VALUES (44, 'Can view notice', 11, 'view_notice');
+-- INSERT INTO `auth_permission` VALUES (45, 'Can add op log', 12, 'add_oplog');
+-- INSERT INTO `auth_permission` VALUES (46, 'Can change op log', 12, 'change_oplog');
+-- INSERT INTO `auth_permission` VALUES (47, 'Can delete op log', 12, 'delete_oplog');
+-- INSERT INTO `auth_permission` VALUES (48, 'Can view op log', 12, 'view_oplog');
+-- INSERT INTO `auth_permission` VALUES (49, 'Can add tag', 13, 'add_tag');
+-- INSERT INTO `auth_permission` VALUES (50, 'Can change tag', 13, 'change_tag');
+-- INSERT INTO `auth_permission` VALUES (51, 'Can delete tag', 13, 'delete_tag');
+-- INSERT INTO `auth_permission` VALUES (52, 'Can view tag', 13, 'view_tag');
+-- INSERT INTO `auth_permission` VALUES (53, 'Can add user', 14, 'add_user');
+-- INSERT INTO `auth_permission` VALUES (54, 'Can change user', 14, 'change_user');
+-- INSERT INTO `auth_permission` VALUES (55, 'Can delete user', 14, 'delete_user');
+-- INSERT INTO `auth_permission` VALUES (56, 'Can view user', 14, 'view_user');
+-- INSERT INTO `auth_permission` VALUES (57, 'Can add thing', 15, 'add_thing');
+-- INSERT INTO `auth_permission` VALUES (58, 'Can change thing', 15, 'change_thing');
+-- INSERT INTO `auth_permission` VALUES (59, 'Can delete thing', 15, 'delete_thing');
+-- INSERT INTO `auth_permission` VALUES (60, 'Can view thing', 15, 'view_thing');
+-- INSERT INTO `auth_permission` VALUES (61, 'Can add record', 16, 'add_record');
+-- INSERT INTO `auth_permission` VALUES (62, 'Can change record', 16, 'change_record');
+-- INSERT INTO `auth_permission` VALUES (63, 'Can delete record', 16, 'delete_record');
+-- INSERT INTO `auth_permission` VALUES (64, 'Can view record', 16, 'view_record');
+-- INSERT INTO `auth_permission` VALUES (65, 'Can add order log', 17, 'add_orderlog');
+-- INSERT INTO `auth_permission` VALUES (66, 'Can change order log', 17, 'change_orderlog');
+-- INSERT INTO `auth_permission` VALUES (67, 'Can delete order log', 17, 'delete_orderlog');
+-- INSERT INTO `auth_permission` VALUES (68, 'Can view order log', 17, 'view_orderlog');
+-- INSERT INTO `auth_permission` VALUES (69, 'Can add order', 18, 'add_order');
+-- INSERT INTO `auth_permission` VALUES (70, 'Can change order', 18, 'change_order');
+-- INSERT INTO `auth_permission` VALUES (71, 'Can delete order', 18, 'delete_order');
+-- INSERT INTO `auth_permission` VALUES (72, 'Can view order', 18, 'view_order');
+-- INSERT INTO `auth_permission` VALUES (73, 'Can add comment', 19, 'add_comment');
+-- INSERT INTO `auth_permission` VALUES (74, 'Can change comment', 19, 'change_comment');
+-- INSERT INTO `auth_permission` VALUES (75, 'Can delete comment', 19, 'delete_comment');
+-- INSERT INTO `auth_permission` VALUES (76, 'Can view comment', 19, 'view_comment');
+-- INSERT INTO `auth_permission` VALUES (77, 'Can add banner', 20, 'add_banner');
+-- INSERT INTO `auth_permission` VALUES (78, 'Can change banner', 20, 'change_banner');
+-- INSERT INTO `auth_permission` VALUES (79, 'Can delete banner', 20, 'delete_banner');
+-- INSERT INTO `auth_permission` VALUES (80, 'Can view banner', 20, 'view_banner');
+-- INSERT INTO `auth_permission` VALUES (81, 'Can add address', 21, 'add_address');
+-- INSERT INTO `auth_permission` VALUES (82, 'Can change address', 21, 'change_address');
+-- INSERT INTO `auth_permission` VALUES (83, 'Can delete address', 21, 'delete_address');
+-- INSERT INTO `auth_permission` VALUES (84, 'Can view address', 21, 'view_address');
 INSERT INTO `b_address` VALUES (2, '刘德华', '333', '2222222', 0, '2023-06-27 18:41:03.478655', 4);
-
--- ----------------------------
--- Table structure for b_banner
--- ----------------------------
-DROP TABLE IF EXISTS `b_banner`;
-CREATE TABLE `b_banner`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `image` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  `thing_id` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `b_banner_thing_id_3f307d00_fk_b_thing_id`(`thing_id`) USING BTREE,
-  CONSTRAINT `b_banner_thing_id_3f307d00_fk_b_thing_id` FOREIGN KEY (`thing_id`) REFERENCES `b_thing` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_banner
--- ----------------------------
-
--- ----------------------------
--- Table structure for b_classification
--- ----------------------------
-DROP TABLE IF EXISTS `b_classification`;
-CREATE TABLE `b_classification`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for b_algorithm
--- ----------------------------
-
--- ----------------------------
--- Records of b_classification
--- ----------------------------
-INSERT INTO `b_classification` VALUES (1, '东北菜', '2023-06-26 18:36:59.316381');
 INSERT INTO `b_classification` VALUES (2, '川菜', '2023-06-26 18:37:04.195783');
 INSERT INTO `b_classification` VALUES (3, '粤菜', '2023-06-26 18:37:09.029553');
 INSERT INTO `b_classification` VALUES (4, '淮南菜', '2023-06-26 18:37:22.294473');
 INSERT INTO `b_classification` VALUES (5, '北京菜', '2023-06-26 18:37:27.984128');
 INSERT INTO `b_classification` VALUES (6, '鲁菜', '2023-06-26 18:37:32.493468');
-
--- ----------------------------
--- Table structure for b_comment
--- ----------------------------
-DROP TABLE IF EXISTS `b_comment`;
-CREATE TABLE `b_comment`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `comment_time` datetime(6) NULL DEFAULT NULL,
-  `like_count` int(11) NOT NULL,
-  `thing_id` bigint(20) NULL DEFAULT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `b_comment_thing_id_57ab492b_fk_b_thing_id`(`thing_id`) USING BTREE,
-  INDEX `b_comment_user_id_46f0670f_fk_b_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `b_comment_thing_id_57ab492b_fk_b_thing_id` FOREIGN KEY (`thing_id`) REFERENCES `b_thing` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `b_comment_user_id_46f0670f_fk_b_user_id` FOREIGN KEY (`user_id`) REFERENCES `b_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_comment
--- ----------------------------
-INSERT INTO `b_comment` VALUES (1, '多对多', '2023-06-27 18:33:44.768990', 0, 8, 2);
 INSERT INTO `b_comment` VALUES (2, 'dda', '2023-06-27 18:34:42.602632', 0, 8, 2);
 INSERT INTO `b_comment` VALUES (3, 'aaa', '2023-06-27 18:47:50.626920', 0, 8, 4);
 INSERT INTO `b_comment` VALUES (4, 'ff', '2023-06-27 18:47:52.354385', 0, 8, 4);
@@ -336,83 +104,11 @@ INSERT INTO `b_comment` VALUES (15, '3', '2023-06-27 19:01:53.485207', 0, 8, 4);
 INSERT INTO `b_comment` VALUES (16, '4', '2023-06-27 19:01:54.408728', 0, 8, 4);
 INSERT INTO `b_comment` VALUES (17, '3', '2023-06-27 19:01:55.407216', 0, 8, 4);
 INSERT INTO `b_comment` VALUES (18, '2', '2023-06-27 19:04:30.375998', 0, 8, 4);
-
--- ----------------------------
--- Table structure for b_error_log
--- ----------------------------
-DROP TABLE IF EXISTS `b_error_log`;
-CREATE TABLE `b_error_log`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `method` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `log_time` datetime(6) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_error_log
--- ----------------------------
-
--- ----------------------------
--- Table structure for b_login_log
--- ----------------------------
-DROP TABLE IF EXISTS `b_login_log`;
-CREATE TABLE `b_login_log`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ip` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `ua` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `log_time` datetime(6) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_login_log
--- ----------------------------
-INSERT INTO `b_login_log` VALUES (1, 'admin', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', '2023-06-23 15:17:14.226585');
-INSERT INTO `b_login_log` VALUES (2, 'ddd', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', '2023-06-25 18:53:06.781565');
-INSERT INTO `b_login_log` VALUES (3, 'admin', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', '2023-06-25 18:56:05.668031');
-INSERT INTO `b_login_log` VALUES (4, 'aaa', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', '2023-06-27 18:40:41.875256');
-INSERT INTO `b_login_log` VALUES (5, 'admin123', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', '2023-06-27 18:43:32.516838');
-INSERT INTO `b_login_log` VALUES (6, 'aaa', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', '2023-06-27 19:07:06.135547');
-
--- ----------------------------
--- Table structure for b_notice
--- ----------------------------
-DROP TABLE IF EXISTS `b_notice`;
-CREATE TABLE `b_notice`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_notice
--- ----------------------------
-
--- ----------------------------
--- Table structure for b_op_log
--- ----------------------------
-DROP TABLE IF EXISTS `b_op_log`;
-CREATE TABLE `b_op_log`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `re_ip` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `re_time` datetime(6) NULL DEFAULT NULL,
-  `re_url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `re_method` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `re_content` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `access_time` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1115 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_op_log
--- ----------------------------
-INSERT INTO `b_op_log` VALUES (1, '127.0.0.1', '2023-06-23 15:15:02.113728', '/adminLogin', 'GET', NULL, '18');
+INSERT INTO `b_login_log` VALUES (2, 'ddd', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0;
+INSERT INTO `b_login_log` VALUES (3, 'admin', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0;
+INSERT INTO `b_login_log` VALUES (4, 'aaa', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0;
+INSERT INTO `b_login_log` VALUES (5, 'admin123', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0;
+INSERT INTO `b_login_log` VALUES (6, 'aaa', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0;
 INSERT INTO `b_op_log` VALUES (2, '127.0.0.1', '2023-06-23 15:15:02.167049', '/favicon.ico', 'GET', NULL, '2');
 INSERT INTO `b_op_log` VALUES (3, '127.0.0.1', '2023-06-23 15:15:15.090942', '/admin/', 'GET', NULL, '19');
 INSERT INTO `b_op_log` VALUES (4, '127.0.0.1', '2023-06-23 15:15:15.290005', '/admin/login/', 'GET', NULL, '109');
@@ -1526,134 +1222,16 @@ INSERT INTO `b_op_log` VALUES (1111, '127.0.0.1', '2023-06-27 19:07:56.782182', 
 INSERT INTO `b_op_log` VALUES (1112, '127.0.0.1', '2023-06-27 19:08:04.022781', '/myapp/admin/comment/list', 'GET', NULL, '48');
 INSERT INTO `b_op_log` VALUES (1113, '127.0.0.1', '2023-06-27 19:08:04.839706', '/myapp/admin/user/list', 'GET', NULL, '6');
 INSERT INTO `b_op_log` VALUES (1114, '127.0.0.1', '2023-06-27 19:08:11.697474', '/myapp/admin/user/update', 'POST', NULL, '26');
-
--- ----------------------------
--- Table structure for b_order
--- ----------------------------
-DROP TABLE IF EXISTS `b_order`;
-CREATE TABLE `b_order`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `order_number` varchar(13) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `status` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `order_time` datetime(6) NULL DEFAULT NULL,
-  `pay_time` datetime(6) NULL DEFAULT NULL,
-  `receiver_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `receiver_address` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `receiver_phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `remark` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
-  `amount` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `gwc` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `b_order_user_id_64854046_fk_b_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `b_order_user_id_64854046_fk_b_user_id` FOREIGN KEY (`user_id`) REFERENCES `b_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_order
--- ----------------------------
-INSERT INTO `b_order` VALUES (1, '1687690490019', '7', '2023-06-25 18:54:50.022540', NULL, '刘德华', '3333', '333', NULL, 2, '37.5', '{\"gwc\":[{\"id\":\"1\",\"title\":\"豆角炒肉\",\"price\":\"2.5\",\"count\":3},{\"id\":\"2\",\"title\":\"西红柿炒鸡蛋\",\"price\":\"15\",\"count\":2}]}');
 INSERT INTO `b_order` VALUES (2, '1687749726221', '7', '2023-06-26 11:22:06.226934', NULL, '刘德华', '3333', '333', NULL, 2, '97.5', '{\"gwc\":[{\"id\":\"1\",\"title\":\"豆角炒肉\",\"price\":\"2.5\",\"count\":3},{\"id\":\"2\",\"title\":\"西红柿炒鸡蛋\",\"price\":\"15\",\"count\":2},{\"id\":\"2\",\"title\":\"西红柿111\",\"price\":\"12\",\"count\":2},{\"id\":\"2\",\"title\":\"西红柿222\",\"price\":\"18\",\"count\":2}]}');
 INSERT INTO `b_order` VALUES (3, '1687778315474', '1', '2023-06-26 19:18:35.479372', NULL, '刘德华', '3333', '333', NULL, 2, '215', '{\"gwc\":[{\"id\":3,\"title\":\"四喜丸子\",\"price\":\"25\",\"count\":5},{\"id\":2,\"title\":\"黄河鲤鱼\",\"price\":\"23\",\"count\":3},{\"id\":1,\"title\":\"鸡蛋炒饼\",\"price\":\"21\",\"count\":1}]}');
 INSERT INTO `b_order` VALUES (4, '1687862464731', '1', '2023-06-27 18:41:04.735986', NULL, '刘德华', '2222222', '333', NULL, 4, '43', '{\"gwc\":[{\"id\":8,\"title\":\"炒馒头片\",\"price\":\"22\",\"count\":1},{\"id\":7,\"title\":\"黄瓜炒土豆\",\"price\":\"21\",\"count\":1}]}');
 INSERT INTO `b_order` VALUES (5, '1687862521016', '1', '2023-06-27 18:42:01.020051', NULL, '刘德华', '2222222', '333', NULL, 4, '43', '{\"gwc\":[{\"id\":8,\"title\":\"炒馒头片\",\"price\":\"22\",\"count\":1},{\"id\":7,\"title\":\"黄瓜炒土豆\",\"price\":\"21\",\"count\":1}]}');
 INSERT INTO `b_order` VALUES (6, '1687864035624', '7', '2023-06-27 19:07:15.627907', NULL, '刘德华', '2222222', '333', NULL, 4, '132', '{\"gwc\":[{\"id\":8,\"title\":\"炒馒头片\",\"price\":\"22\",\"count\":6}]}');
-
--- ----------------------------
--- Table structure for b_order_log
--- ----------------------------
-DROP TABLE IF EXISTS `b_order_log`;
-CREATE TABLE `b_order_log`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `action` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `log_time` datetime(6) NULL DEFAULT NULL,
-  `thing_id` bigint(20) NULL DEFAULT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `b_order_log_thing_id_7306f624_fk_b_thing_id`(`thing_id`) USING BTREE,
-  INDEX `b_order_log_user_id_1003e839_fk_b_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `b_order_log_thing_id_7306f624_fk_b_thing_id` FOREIGN KEY (`thing_id`) REFERENCES `b_thing` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `b_order_log_user_id_1003e839_fk_b_user_id` FOREIGN KEY (`user_id`) REFERENCES `b_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_order_log
--- ----------------------------
-
--- ----------------------------
--- Table structure for b_record
--- ----------------------------
-DROP TABLE IF EXISTS `b_record`;
-CREATE TABLE `b_record`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `record_time` datetime(6) NULL DEFAULT NULL,
-  `classification_id` bigint(20) NULL DEFAULT NULL,
-  `thing_id` bigint(20) NULL DEFAULT NULL,
-  `user_id` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `b_record_classification_id_52591cc9_fk_b_classification_id`(`classification_id`) USING BTREE,
-  INDEX `b_record_thing_id_d8e773c0_fk_b_thing_id`(`thing_id`) USING BTREE,
-  INDEX `b_record_user_id_7e5958b0_fk_b_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `b_record_classification_id_52591cc9_fk_b_classification_id` FOREIGN KEY (`classification_id`) REFERENCES `b_classification` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `b_record_thing_id_d8e773c0_fk_b_thing_id` FOREIGN KEY (`thing_id`) REFERENCES `b_thing` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `b_record_user_id_7e5958b0_fk_b_user_id` FOREIGN KEY (`user_id`) REFERENCES `b_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_record
--- ----------------------------
-
--- ----------------------------
--- Table structure for b_tag
--- ----------------------------
-DROP TABLE IF EXISTS `b_tag`;
-CREATE TABLE `b_tag`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_tag
--- ----------------------------
-INSERT INTO `b_tag` VALUES (1, '肘子', '2023-06-26 18:37:39.888510');
 INSERT INTO `b_tag` VALUES (2, '麻辣', '2023-06-26 18:37:43.801209');
 INSERT INTO `b_tag` VALUES (3, '多汁', '2023-06-26 18:37:48.968542');
 INSERT INTO `b_tag` VALUES (4, '香米饭', '2023-06-26 18:37:54.922741');
 INSERT INTO `b_tag` VALUES (5, '卤汁', '2023-06-26 18:38:00.542273');
 INSERT INTO `b_tag` VALUES (6, '鸡蛋饭', '2023-06-26 18:38:06.667657');
-
--- ----------------------------
--- Table structure for b_thing
--- ----------------------------
-DROP TABLE IF EXISTS `b_thing`;
-CREATE TABLE `b_thing`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `cover` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `description` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `price` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `repertory` int(11) NOT NULL,
-  `score` int(11) NOT NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  `pv` int(11) NOT NULL,
-  `recommend_count` int(11) NOT NULL,
-  `wish_count` int(11) NOT NULL,
-  `collect_count` int(11) NOT NULL,
-  `classification_id` bigint(20) NULL DEFAULT NULL,
-  `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `b_thing_classification_id_47675ac4_fk_b_classification_id`(`classification_id`) USING BTREE,
-  CONSTRAINT `b_thing_classification_id_47675ac4_fk_b_classification_id` FOREIGN KEY (`classification_id`) REFERENCES `b_classification` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_thing
--- ----------------------------
-INSERT INTO `b_thing` VALUES (1, '鸡蛋炒饼', 'cover/1687775977042.jpeg', '北京的名菜，享誉世界，被认为是中国的国菜之一。北京烤鸭以其皮薄而脆而闻名。切片的北京烤鸭经常与煎饼、甜豆酱或蒜泥酱油一起食用。是到北京必吃的一道菜！\r\n\r\n作为“中国第一道菜”，北京烤鸭曾是中国中世纪的皇室菜肴。自1970年代以来，它一直是“外交礼仪国菜”，它被周恩来总理（中华人民共和国第一任总理）首次用于接待各国外宾。受到国家元首、政府官员和国内外游客们的高度好评。', '21', '0', 0, 0, '2023-06-26 18:40:17.210359', 0, 0, 1, 1, 6, '');
 INSERT INTO `b_thing` VALUES (2, '黄河鲤鱼', 'cover/1687776110036.jpeg', '北京的名菜，享誉世界，被认为是中国的国菜之一。北京烤鸭以其皮薄而脆而闻名。切片的北京烤鸭经常与煎饼、甜豆酱或蒜泥酱油一起食用。是到北京必吃的一道菜！\r\n\r\n作为“中国第一道菜”，北京烤鸭曾是中国中世纪的皇室菜肴。自1970年代以来，它一直是“外交礼仪国菜”，它被周恩来总理（中华人民共和国第一任总理）首次用于接待各国外宾。受到国家元首、政府官员和国内外游客们的高度好评。', '23', '0', 0, 0, '2023-06-26 18:41:55.509984', 0, 0, 0, 0, 5, NULL);
 INSERT INTO `b_thing` VALUES (3, '四喜丸子', 'cover/1687776132604.jpeg', '北京的名菜，享誉世界，被认为是中国的国菜之一。北京烤鸭以其皮薄而脆而闻名。切片的北京烤鸭经常与煎饼、甜豆酱或蒜泥酱油一起食用。是到北京必吃的一道菜！\r\n\r\n作为“中国第一道菜”，北京烤鸭曾是中国中世纪的皇室菜肴。自1970年代以来，它一直是“外交礼仪国菜”，它被周恩来总理（中华人民共和国第一任总理）首次用于接待各国外宾。受到国家元首、政府官员和国内外游客们的高度好评。', '25', '0', 0, 0, '2023-06-26 18:42:17.738756', 0, 0, 0, 0, 4, NULL);
 INSERT INTO `b_thing` VALUES (4, '黄瓜炒鸡蛋', 'cover/1687861836048.jpeg', '北京的名菜，享誉世界，被认为是中国的国菜之一。北京烤鸭以其皮薄而脆而闻名。切片的北京烤鸭经常与煎饼、甜豆酱或蒜泥酱油一起食用。是到北京必吃的一道菜！\r\n\r\n作为“中国第一道菜”，北京烤鸭曾是中国中世纪的皇室菜肴。自1970年代以来，它一直是“外交礼仪国菜”，它被周恩来总理（中华人民共和国第一任总理）首次用于接待各国外宾。受到国家元首、政府官员和国内外游客们的高度好评。', '32', '0', 0, 0, '2023-06-27 18:30:42.243782', 0, 0, 0, 0, 5, NULL);
@@ -1662,48 +1240,8 @@ INSERT INTO `b_thing` VALUES (6, '土豆炒肉丝', 'cover/1687861881517.jpeg', 
 INSERT INTO `b_thing` VALUES (7, '黄瓜炒土豆', 'cover/1687861903231.jpeg', '北京的名菜，享誉世界，被认为是中国的国菜之一。北京烤鸭以其皮薄而脆而闻名。切片的北京烤鸭经常与煎饼、甜豆酱或蒜泥酱油一起食用。是到北京必吃的一道菜！\r\n\r\n作为“中国第一道菜”，北京烤鸭曾是中国中世纪的皇室菜肴。自1970年代以来，它一直是“外交礼仪国菜”，它被周恩来总理（中华人民共和国第一任总理）首次用于接待各国外宾。受到国家元首、政府官员和国内外游客们的高度好评。', '21', '0', 0, 0, '2023-06-27 18:31:48.933217', 0, 0, 1, 1, 2, NULL);
 INSERT INTO `b_thing` VALUES (8, '炒馒头片', 'cover/1687861921488.jpeg', '北京的名菜，享誉世界，被认为是中国的国菜之一。北京烤鸭以其皮薄而脆而闻名。切片的北京烤鸭经常与煎饼、甜豆酱或蒜泥酱油一起食用。是到北京必吃的一道菜！\r\n\r\n作为“中国第一道菜”，北京烤鸭曾是中国中世纪的皇室菜肴。自1970年代以来，它一直是“外交礼仪国菜”，它被周恩来总理（中华人民共和国第一任总理）首次用于接待各国外宾。受到国家元首、政府官员和国内外游客们的高度好评。', '22', '0', 0, 0, '2023-06-27 18:32:08.049612', 0, 0, 2, 1, 1, NULL);
 INSERT INTO `b_thing` VALUES (9, '藕片炒鸡蛋', 'cover/1687861945128.jpeg', '北京的名菜，享誉世界，被认为是中国的国菜之一。北京烤鸭以其皮薄而脆而闻名。切片的北京烤鸭经常与煎饼、甜豆酱或蒜泥酱油一起食用。是到北京必吃的一道菜！\r\n\r\n作为“中国第一道菜”，北京烤鸭曾是中国中世纪的皇室菜肴。自1970年代以来，它一直是“外交礼仪国菜”，它被周恩来总理（中华人民共和国第一任总理）首次用于接待各国外宾。受到国家元首、政府官员和国内外游客们的高度好评。', '33', '0', 0, 0, '2023-06-27 18:32:29.709813', 0, 0, 0, 0, 5, NULL);
-
--- ----------------------------
--- Table structure for b_thing_collect
--- ----------------------------
-DROP TABLE IF EXISTS `b_thing_collect`;
-CREATE TABLE `b_thing_collect`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `thing_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `b_thing_collect_thing_id_user_id_45b9f252_uniq`(`thing_id`, `user_id`) USING BTREE,
-  INDEX `b_thing_collect_user_id_e5d69968_fk_b_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `b_thing_collect_thing_id_8edce8b3_fk_b_thing_id` FOREIGN KEY (`thing_id`) REFERENCES `b_thing` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `b_thing_collect_user_id_e5d69968_fk_b_user_id` FOREIGN KEY (`user_id`) REFERENCES `b_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_thing_collect
--- ----------------------------
-INSERT INTO `b_thing_collect` VALUES (1, 1, 2);
 INSERT INTO `b_thing_collect` VALUES (3, 7, 4);
 INSERT INTO `b_thing_collect` VALUES (2, 8, 2);
-
--- ----------------------------
--- Table structure for b_thing_tag
--- ----------------------------
-DROP TABLE IF EXISTS `b_thing_tag`;
-CREATE TABLE `b_thing_tag`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `thing_id` bigint(20) NOT NULL,
-  `tag_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `b_thing_tag_thing_id_tag_id_a5d426b2_uniq`(`thing_id`, `tag_id`) USING BTREE,
-  INDEX `b_thing_tag_tag_id_d02b28a1_fk_b_tag_id`(`tag_id`) USING BTREE,
-  CONSTRAINT `b_thing_tag_tag_id_d02b28a1_fk_b_tag_id` FOREIGN KEY (`tag_id`) REFERENCES `b_tag` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `b_thing_tag_thing_id_fb8ecf3f_fk_b_thing_id` FOREIGN KEY (`thing_id`) REFERENCES `b_thing` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_thing_tag
--- ----------------------------
-INSERT INTO `b_thing_tag` VALUES (1, 1, 2);
 INSERT INTO `b_thing_tag` VALUES (2, 1, 3);
 INSERT INTO `b_thing_tag` VALUES (3, 1, 5);
 INSERT INTO `b_thing_tag` VALUES (4, 1, 6);
@@ -1731,105 +1269,14 @@ INSERT INTO `b_thing_tag` VALUES (25, 8, 3);
 INSERT INTO `b_thing_tag` VALUES (26, 8, 5);
 INSERT INTO `b_thing_tag` VALUES (27, 9, 3);
 INSERT INTO `b_thing_tag` VALUES (28, 9, 5);
-
--- ----------------------------
--- Table structure for b_thing_wish
--- ----------------------------
-DROP TABLE IF EXISTS `b_thing_wish`;
-CREATE TABLE `b_thing_wish`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `thing_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `b_thing_wish_thing_id_user_id_9d647bbb_uniq`(`thing_id`, `user_id`) USING BTREE,
-  INDEX `b_thing_wish_user_id_e2d94f6c_fk_b_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `b_thing_wish_thing_id_f0864b16_fk_b_thing_id` FOREIGN KEY (`thing_id`) REFERENCES `b_thing` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `b_thing_wish_user_id_e2d94f6c_fk_b_user_id` FOREIGN KEY (`user_id`) REFERENCES `b_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_thing_wish
--- ----------------------------
-INSERT INTO `b_thing_wish` VALUES (1, 1, 2);
 INSERT INTO `b_thing_wish` VALUES (3, 7, 4);
 INSERT INTO `b_thing_wish` VALUES (2, 8, 2);
 INSERT INTO `b_thing_wish` VALUES (4, 8, 4);
-
--- ----------------------------
--- Table structure for b_user
--- ----------------------------
-DROP TABLE IF EXISTS `b_user`;
-CREATE TABLE `b_user`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `role` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `nickname` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `avatar` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `mobile` varchar(13) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `gender` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `description` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `create_time` datetime(6) NULL DEFAULT NULL,
-  `score` int(11) NULL DEFAULT NULL,
-  `push_email` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `push_switch` tinyint(1) NULL DEFAULT NULL,
-  `admin_token` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `token` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of b_user
--- ----------------------------
-INSERT INTO `b_user` VALUES (1, 'admin', '78aafd3207ec4ef6d16f9fc07e95ebc3', '1', '0', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '21232f297a57a5a743894a0e4a801fc3', NULL);
 INSERT INTO `b_user` VALUES (2, 'ddd', '77963b7a931377ad4ab5ad6a9cd718aa', '2', '0', NULL, '', NULL, NULL, NULL, NULL, '2023-06-25 18:53:04.351325', 0, NULL, 0, NULL, '77963b7a931377ad4ab5ad6a9cd718aa');
 INSERT INTO `b_user` VALUES (3, 'admin123', '0192023a7bbd73250516f069df18b500', '3', '0', NULL, '', NULL, '122', NULL, NULL, '2023-06-27 18:40:26.969592', 0, NULL, 0, '0192023a7bbd73250516f069df18b500', NULL);
 INSERT INTO `b_user` VALUES (4, 'aaa', '47bce5c74f589f4867dbd57e9ca9f808', '2', '0', NULL, '', NULL, NULL, NULL, NULL, '2023-06-27 18:40:38.648793', 0, NULL, 0, NULL, '47bce5c74f589f4867dbd57e9ca9f808');
 INSERT INTO `b_user` VALUES (5, 'bbb', '08f8e0260c64418510cefb2b06eee5cd', '2', '0', NULL, '', NULL, NULL, NULL, NULL, '2023-06-27 19:04:58.169901', 0, NULL, 0, NULL, NULL);
 INSERT INTO `b_user` VALUES (6, 'cd', '6865aeb3a9ed28f9a79ec454b259e5d0', '2', '0', NULL, '', NULL, NULL, NULL, NULL, '2023-06-27 19:06:11.083532', 0, NULL, 0, NULL, NULL);
-
--- ----------------------------
--- Table structure for django_admin_log
--- ----------------------------
-DROP TABLE IF EXISTS `django_admin_log`;
-CREATE TABLE `django_admin_log`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `action_time` datetime(6) NOT NULL,
-  `object_id` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `object_repr` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `action_flag` smallint(5) UNSIGNED NOT NULL,
-  `change_message` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `content_type_id` int(11) NULL DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `django_admin_log_content_type_id_c4bce8eb_fk_django_co`(`content_type_id`) USING BTREE,
-  INDEX `django_admin_log_user_id_c564eba6_fk_auth_user_id`(`user_id`) USING BTREE,
-  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of django_admin_log
--- ----------------------------
-
--- ----------------------------
--- Table structure for django_content_type
--- ----------------------------
-DROP TABLE IF EXISTS `django_content_type`;
-CREATE TABLE `django_content_type`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `app_label` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `model` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `django_content_type_app_label_model_76bd3d3b_uniq`(`app_label`, `model`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of django_content_type
--- ----------------------------
-INSERT INTO `django_content_type` VALUES (1, 'admin', 'logentry');
 INSERT INTO `django_content_type` VALUES (3, 'auth', 'group');
 INSERT INTO `django_content_type` VALUES (2, 'auth', 'permission');
 INSERT INTO `django_content_type` VALUES (4, 'auth', 'user');
@@ -1850,23 +1297,6 @@ INSERT INTO `django_content_type` VALUES (13, 'myapp', 'tag');
 INSERT INTO `django_content_type` VALUES (15, 'myapp', 'thing');
 INSERT INTO `django_content_type` VALUES (14, 'myapp', 'user');
 INSERT INTO `django_content_type` VALUES (6, 'sessions', 'session');
-
--- ----------------------------
--- Table structure for django_migrations
--- ----------------------------
-DROP TABLE IF EXISTS `django_migrations`;
-CREATE TABLE `django_migrations`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `app` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `applied` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of django_migrations
--- ----------------------------
-INSERT INTO `django_migrations` VALUES (1, 'contenttypes', '0001_initial', '2023-06-23 15:14:36.564235');
 INSERT INTO `django_migrations` VALUES (2, 'auth', '0001_initial', '2023-06-23 15:14:36.998046');
 INSERT INTO `django_migrations` VALUES (3, 'admin', '0001_initial', '2023-06-23 15:14:37.078845');
 INSERT INTO `django_migrations` VALUES (4, 'admin', '0002_logentry_remove_auto_add', '2023-06-23 15:14:37.094766');
@@ -1888,21 +1318,3 @@ INSERT INTO `django_migrations` VALUES (19, 'myapp', '0002_thing_address', '2023
 INSERT INTO `django_migrations` VALUES (20, 'myapp', '0003_auto_20230623_1514', '2023-06-23 15:14:39.410573');
 INSERT INTO `django_migrations` VALUES (21, 'sessions', '0001_initial', '2023-06-23 15:14:39.459533');
 INSERT INTO `django_migrations` VALUES (22, 'myapp', '0004_auto_20230625_1852', '2023-06-25 18:52:29.436593');
-
--- ----------------------------
--- Table structure for django_session
--- ----------------------------
-DROP TABLE IF EXISTS `django_session`;
-CREATE TABLE `django_session`  (
-  `session_key` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `session_data` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `expire_date` datetime(6) NOT NULL,
-  PRIMARY KEY (`session_key`) USING BTREE,
-  INDEX `django_session_expire_date_a5c62663`(`expire_date`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of django_session
--- ----------------------------
-
-SET FOREIGN_KEY_CHECKS = 1;

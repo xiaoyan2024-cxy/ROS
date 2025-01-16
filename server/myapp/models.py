@@ -3,27 +3,29 @@ from django.db import models
 
 class User(models.Model):
     GENDER_CHOICES = (
-        ('M', '男'),
-        ('F', '女'),
+        ("M", "男"),
+        ("F", "女"),
     )
     ROLE_CHOICES = (
-        ('0', '管理员'),
-        ('1', '普通用户'),
+        ("0", "管理员"),
+        ("1", "普通用户"),
     )
     STATUS_CHOICES = (
-        ('0', '正常'),
-        ('1', '封号'),
+        ("0", "正常"),
+        ("1", "封号"),
     )
     id = models.BigAutoField(primary_key=True)
     username = models.CharField(max_length=50, null=True)
     password = models.CharField(max_length=50, null=True)
     role = models.CharField(max_length=2, blank=True, null=True)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='0')
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
     nickname = models.CharField(blank=True, null=True, max_length=20)
-    avatar = models.FileField(upload_to='avatar/', null=True)
+    avatar = models.FileField(upload_to="avatar/", null=True)
     mobile = models.CharField(max_length=13, blank=True, null=True)
     email = models.CharField(max_length=50, blank=True, null=True)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, blank=True, null=True
+    )
     description = models.TextField(max_length=200, null=True)
     create_time = models.DateTimeField(auto_now_add=True, null=True)
     score = models.IntegerField(default=0, blank=True, null=True)
@@ -45,6 +47,81 @@ class Tag(models.Model):
         db_table = "b_tag"
 
 
+class Algorithm(models.Model):
+    STATUS_CHOICES = (
+        ("0", "正常"),
+        ("1", "异常"),
+    )
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=105, blank=True, null=True)
+    description = models.CharField(max_length=100, blank=True, null=True)
+    version = models.CharField(max_length=50, blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True, null=True)
+    update_time = models.DateTimeField(auto_now_add=True, null=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
+    classification = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True
+    )
+
+    def __str__(self):
+        return self.description
+
+    class Meta:
+        db_table = "b_algorithm"
+
+
+class ROS(models.Model):
+    SOURCE_CHOICE = (
+        ("0", "origin_bag"),
+        ("1", "simulated_bag"),
+    )
+    STATUS_CHOICES = (
+        ("0", "正常"),
+        ("1", "异常"),
+    )
+
+    id = models.BigAutoField(primary_key=True)
+    uploader = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    description = models.CharField(max_length=100, blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True, null=True)
+    update_time = models.DateTimeField(auto_now_add=True, null=True)
+    source = models.CharField(max_length=1, choices=SOURCE_CHOICE, default="0")
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
+
+    def __str__(self):
+        return self.description
+
+    class Meta:
+        db_table = "b_ros"
+
+
+class Task(models.Model):
+    EVALUATE_RESULT = (
+        ("0", "SUCCESS"),
+        ("1", "FAILED"),
+        ("0", "RAW_DATA_ERROR"),
+    )
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    algorithm = models.ForeignKey(
+        Algorithm, on_delete=models.CASCADE, blank=True, null=True
+    )
+    ros = models.ForeignKey(ROS, on_delete=models.CASCADE, blank=True, null=True)
+    description = models.CharField(max_length=100, blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True, null=True)
+    update_time = models.DateTimeField(auto_now_add=True, null=True)
+    evaluate_result = models.CharField(
+        max_length=1, choices=EVALUATE_RESULT, default="0"
+    )
+
+    def __str__(self):
+        return self.description
+
+    class Meta:
+        db_table = "b_task"
+
+
 class Classification(models.Model):
     list_display = ("title", "id")
     id = models.BigAutoField(primary_key=True)
@@ -60,19 +137,24 @@ class Classification(models.Model):
 
 class Thing(models.Model):
     STATUS_CHOICES = (
-        ('0', '上架'),
-        ('1', '下架'),
+        ("0", "上架"),
+        ("1", "下架"),
     )
     id = models.BigAutoField(primary_key=True)
-    classification = models.ForeignKey(Classification, on_delete=models.CASCADE, blank=True, null=True,
-                                       related_name='classification_thing')
+    classification = models.ForeignKey(
+        Classification,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="classification_thing",
+    )
     tag = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=100, blank=True, null=True)
-    cover = models.ImageField(upload_to='cover/', null=True)
+    cover = models.ImageField(upload_to="cover/", null=True)
     description = models.TextField(max_length=1000, blank=True, null=True)
     price = models.CharField(max_length=50, blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='0')
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
     repertory = models.IntegerField(default=0)
     score = models.IntegerField(default=0)
     create_time = models.DateTimeField(auto_now_add=True, null=True)
@@ -84,14 +166,18 @@ class Thing(models.Model):
     collect_count = models.IntegerField(default=0)
 
     class Meta:
-            db_table = "b_thing"
+        db_table = "b_thing"
 
 
 class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
     content = models.CharField(max_length=200, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='user_comment')
-    thing = models.ForeignKey(Thing, on_delete=models.CASCADE, null=True, related_name='thing_comment')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name="user_comment"
+    )
+    thing = models.ForeignKey(
+        Thing, on_delete=models.CASCADE, null=True, related_name="thing_comment"
+    )
     comment_time = models.DateTimeField(auto_now_add=True, null=True)
     like_count = models.IntegerField(default=0)
 
@@ -101,11 +187,19 @@ class Comment(models.Model):
 
 class Record(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='user_record')
-    thing = models.ForeignKey(Thing, on_delete=models.CASCADE, null=True, related_name='thing_record')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name="user_record"
+    )
+    thing = models.ForeignKey(
+        Thing, on_delete=models.CASCADE, null=True, related_name="thing_record"
+    )
     title = models.CharField(max_length=100, blank=True, null=True)
-    classification = models.ForeignKey(Classification, on_delete=models.CASCADE, null=True,
-                                       related_name='classification')
+    classification = models.ForeignKey(
+        Classification,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="classification",
+    )
     record_time = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
@@ -151,10 +245,14 @@ class ErrorLog(models.Model):
 class Order(models.Model):
     id = models.BigAutoField(primary_key=True)
     order_number = models.CharField(max_length=13, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='user_order')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name="user_order"
+    )
     gwc = models.CharField(max_length=512, blank=True, null=True)
     amount = models.CharField(max_length=10, blank=True, null=True)
-    status = models.CharField(max_length=2, blank=True, null=True)  # 1未支付 2已支付 7订单取消
+    status = models.CharField(
+        max_length=2, blank=True, null=True
+    )  # 1未支付 2已支付 7订单取消
     order_time = models.DateTimeField(auto_now_add=True, null=True)
     pay_time = models.DateTimeField(null=True)
     receiver_name = models.CharField(max_length=20, blank=True, null=True)
@@ -168,8 +266,12 @@ class Order(models.Model):
 
 class OrderLog(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='user_order_log')
-    thing = models.ForeignKey(Thing, on_delete=models.CASCADE, null=True, related_name='thing_order_log')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name="user_order_log"
+    )
+    thing = models.ForeignKey(
+        Thing, on_delete=models.CASCADE, null=True, related_name="thing_order_log"
+    )
     action = models.CharField(max_length=2, blank=True, null=True)
     log_time = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -179,8 +281,10 @@ class OrderLog(models.Model):
 
 class Banner(models.Model):
     id = models.BigAutoField(primary_key=True)
-    image = models.ImageField(upload_to='banner/', null=True)
-    thing = models.ForeignKey(Thing, on_delete=models.CASCADE, null=True, related_name='thing_banner')
+    image = models.ImageField(upload_to="banner/", null=True)
+    thing = models.ForeignKey(
+        Thing, on_delete=models.CASCADE, null=True, related_name="thing_banner"
+    )
     create_time = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
@@ -189,7 +293,7 @@ class Banner(models.Model):
 
 class Ad(models.Model):
     id = models.BigAutoField(primary_key=True)
-    image = models.ImageField(upload_to='ad/', null=True)
+    image = models.ImageField(upload_to="ad/", null=True)
     link = models.CharField(max_length=500, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -209,7 +313,9 @@ class Notice(models.Model):
 
 class Address(models.Model):
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='user_address')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, related_name="user_address"
+    )
     name = models.CharField(max_length=100, blank=True, null=True)
     mobile = models.CharField(max_length=30, blank=True, null=True)
     desc = models.CharField(max_length=300, blank=True, null=True)

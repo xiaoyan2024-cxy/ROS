@@ -3,25 +3,35 @@
     <a-layout-header style="background: #fff; padding: 0">
       <div class="header">
         <img class="header-logo" :src="logo">
-        <span class="header-title">菜品后台管理系统</span>
+        <span class="header-title">决策算法评测管理系统</span>
         <div class="empty"></div>
         <a-button style="margin-right: 24px;" @click="handlePreview">前台预览</a-button>
         <span>管理员[{{ userStore.admin_user_name }}]</span>
         <a class="header-quit" @click="handleLogout">退出</a>
       </div>
     </a-layout-header>
+    
     <a-layout>
       <a-layout-sider v-model="collapsed" collapsible >
+
+        <!--点击click，传递相应key值给router-->
         <a-menu style="overflow:auto; overflow-x: hidden;" v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" @click="handleClick">
 
           <a-menu-item key="thing">
             <database-outlined/>
             <span>菜品管理</span>
           </a-menu-item>
+
           <a-menu-item key="classification">
             <layout-outlined/>
             <span>分类管理</span>
           </a-menu-item>
+          
+          <a-menu-item key="algorithm">
+            <layout-outlined/>
+            <span>算法管理</span>
+          </a-menu-item>
+
           <a-menu-item key="tag">
             <tag-outlined/>
             <span>标签管理</span>
@@ -111,17 +121,23 @@ import {useUserStore} from "/@/store";
 const userStore = useUserStore();
 
 const selectedKeys = ref<any[]>([])
+
 const collapsed = ref<boolean>(false)
 
+// router 是 Vue Router 的实例，router.push 是 Vue Router 提供的方法，用于编程式导航到不同的路由。
 const router = useRouter()
+
 const route = useRoute()
+
 
 const handleClick = ({item, key, keyPath}) => {
   console.log('点击路由===>', key)
+  // router.push 方法用于编程式导航到一个新的路由
   router.push({
     name: key,
   })
 }
+
 
 const handlePreview = ()=>{
   let text = router.resolve({name: 'index'})

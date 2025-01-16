@@ -47,7 +47,6 @@ import LogoIcon from '/@/assets/images/k-logo.png';
 import MailIcon from '/@/assets/images/mail-icon.svg';
 import PwdIcon from '/@/assets/images/pwd-icon.svg';
 
-
 const router = useRouter();
 const userStore = useUserStore();
 
@@ -76,11 +75,11 @@ const handleCreateUser = () => {
   router.push({name:'register'})
 }
 
+
 const loginSuccess= ()=> {
   router.push({ name: 'portal' })
   message.success('登录成功！')
 }
-
 
 </script>
 <style scoped lang="less">
