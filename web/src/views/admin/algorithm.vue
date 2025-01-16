@@ -68,6 +68,13 @@ const columns = reactive([
         dataIndex: 'title',
         key: 'title',
     },
+    
+    {
+        title: 'tagger',
+        dataIndex: 'tag',
+        key: 'tag',
+    },
+
     { title: '创建时间', dataIndex: 'create_time', key: 'create_time' },
     { title: '算法描述', dataIndex: 'description', key: 'description' },
     { title: '状态', dataIndex: 'status', key: 'status' },
@@ -152,6 +159,7 @@ const handleAdd = () => {
         modal.form[key] = undefined;
     }
 };
+
 
 
 const handleEdit = (record) => {

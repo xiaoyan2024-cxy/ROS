@@ -15,6 +15,7 @@ def list_api(request):
         keyword = request.GET.get("keyword", None)
         c = request.GET.get("c", None)
         tag = request.GET.get("tag", None)
+        
         if keyword:
             things = Thing.objects.filter(title__contains=keyword).order_by('-create_time')
         elif c:

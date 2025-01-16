@@ -10,100 +10,126 @@
         <a class="header-quit" @click="handleLogout">退出</a>
       </div>
     </a-layout-header>
-    
+
     <a-layout>
-      <a-layout-sider v-model="collapsed" collapsible >
+      <a-layout-sider v-model="collapsed" collapsible>
 
         <!--点击click，传递相应key值给router-->
-        <a-menu style="overflow:auto; overflow-x: hidden;" v-model:selectedKeys="selectedKeys" theme="dark" mode="inline" @click="handleClick">
+        <a-menu style="overflow:auto; overflow-x: hidden;" v-model:selectedKeys="selectedKeys" theme="dark"
+          mode="inline" @click="handleClick">
 
           <a-menu-item key="thing">
-            <database-outlined/>
+            <database-outlined />
             <span>菜品管理</span>
           </a-menu-item>
 
           <a-menu-item key="classification">
-            <layout-outlined/>
+            <layout-outlined />
             <span>分类管理</span>
           </a-menu-item>
-          
+
           <a-menu-item key="algorithm">
-            <layout-outlined/>
+            <layout-outlined />
             <span>算法管理</span>
           </a-menu-item>
 
-          <a-menu-item key="task">
-            <layout-outlined/>
+          <!-- <a-menu-item key="task">
+            <layout-outlined />
             <span>任务管理</span>
-          </a-menu-item>
+          </a-menu-item> -->
+
+          <a-sub-menu>
+            <template #icon>
+              <folder-outlined />
+            </template>
+            
+            <template #title>任务管理</template>
+            <a-menu-item key="task">
+              <appstore-outlined />
+              <span>所有任务</span>
+            </a-menu-item>
+            <!-- <a-menu-item key="task">
+              <appstore-outlined />
+              <span>我的任务</span>
+            </a-menu-item>
+            <a-menu-item key="task">
+              <appstore-outlined />
+              <span>提交任务</span>
+            </a-menu-item> -->
+            
+          </a-sub-menu>
+
 
           <a-menu-item key="tag">
-            <tag-outlined/>
+            <tag-outlined />
             <span>标签管理</span>
           </a-menu-item>
           <a-menu-item key="order">
-            <dollar-outlined/>
+            <dollar-outlined />
             <span>订单管理</span>
           </a-menu-item>
           <a-menu-item key="comment">
-            <comment-outlined/>
+            <comment-outlined />
             <span>评论管理</span>
           </a-menu-item>
           <a-menu-item key="user">
-            <user-outlined/>
+            <user-outlined />
             <span>用户管理</span>
           </a-menu-item>
+
           <a-sub-menu>
             <template #icon>
-              <folder-outlined/>
+              <folder-outlined />
             </template>
             <template #title>运营管理</template>
             <a-menu-item key="ad">
-              <appstore-outlined/>
+              <appstore-outlined />
               <span>广告管理</span>
             </a-menu-item>
             <a-menu-item key="notice">
-              <appstore-outlined/>
+              <appstore-outlined />
               <span>通知公告</span>
             </a-menu-item>
           </a-sub-menu>
+
           <a-sub-menu>
             <template #icon>
-              <folder-outlined/>
+              <folder-outlined />
             </template>
             <template #title>日志管理</template>
             <a-menu-item key="loginLog">
-              <appstore-outlined/>
+              <appstore-outlined />
               <span>登录日志</span>
             </a-menu-item>
             <a-menu-item key="opLog">
-              <appstore-outlined/>
+              <appstore-outlined />
               <span>操作日志</span>
             </a-menu-item>
             <a-menu-item key="errorLog">
-              <appstore-outlined/>
+              <appstore-outlined />
               <span>错误日志</span>
             </a-menu-item>
           </a-sub-menu>
+
           <a-menu-item key="overview">
-            <home-outlined/>
+            <home-outlined />
             <span>统计分析</span>
           </a-menu-item>
           <a-menu-item key="sysInfo">
-            <info-circle-outlined/>
+            <info-circle-outlined />
             <span>系统信息</span>
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
       <a-layout-content :style="{ margin: '16px 16px', minHeight: '200px' }">
-        <router-view/>
+        <router-view />
       </a-layout-content>
     </a-layout>
   </a-layout>
 
 </template>
 <script setup lang="ts">
-import {useRouter, useRoute} from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import logo from '/@/assets/images/k-logo.png'
 
 import {
@@ -120,8 +146,8 @@ import {
   DatabaseOutlined
 } from '@ant-design/icons-vue';
 
-import {ref} from 'vue';
-import {useUserStore} from "/@/store";
+import { ref } from 'vue';
+import { useUserStore } from "/@/store";
 
 const userStore = useUserStore();
 
@@ -135,7 +161,7 @@ const router = useRouter()
 const route = useRoute()
 
 
-const handleClick = ({item, key, keyPath}) => {
+const handleClick = ({ item, key, keyPath }) => {
   console.log('点击路由===>', key)
   // router.push 方法用于编程式导航到一个新的路由
   router.push({
@@ -144,8 +170,8 @@ const handleClick = ({item, key, keyPath}) => {
 }
 
 
-const handlePreview = ()=>{
-  let text = router.resolve({name: 'index'})
+const handlePreview = () => {
+  let text = router.resolve({ name: 'index' })
   window.open(text.href, '_blank')
 }
 
@@ -157,13 +183,12 @@ onMounted(() => {
 
 const handleLogout = () => {
   userStore.adminLogout().then(res => {
-    router.push({name: 'adminLogin'})
+    router.push({ name: 'adminLogin' })
   })
 }
 
 </script>
 <style scoped lang="less">
-
 // header样式
 .header {
   display: flex;
@@ -229,5 +254,4 @@ const handleLogout = () => {
 //:deep(.ant-layout-sider-trigger) {
 //  background-color: #fff;
 //  height: 0px; // 设置0 隐藏
-//}
-</style>
+//}</style>

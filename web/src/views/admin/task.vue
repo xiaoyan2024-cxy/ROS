@@ -4,7 +4,9 @@
         <div class="page-view">
             <div class="table-operations">
                 <a-space>
+                    <a-button type="primary" @click="handleAdd">新增</a-button>
                     <a-button @click="handleBatchDelete">批量删除</a-button>
+                    <a-input-search addon-before="任务名称" enter-button @search="onSearch" @change="onSearchChange" />
                 </a-space>
             </div>
 
@@ -252,6 +254,15 @@ onMounted(() => {
     getDataList();
 });
 
+const onSearch = () => {
+  getDataList();
+};
+
+const onSearchChange = (e: Event) => {
+  data.keyword = e?.target?.value;
+  console.log(data.keyword);
+};
+
 // getDataList方法用于从服务器获取数据并填充到表格中。
 const getDataList = () => {
     data.loading = true;
@@ -274,6 +285,7 @@ const getDataList = () => {
 };
 
 
+
 const rowSelection = ref({
     onChange: (selectedRowKeys: (string | number)[], selectedRows: DataItem[]) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -292,7 +304,6 @@ const handleAdd = () => {
         modal.form[key] = undefined;
     }
 };
-
 
 const handleCancelTask = (record) => {
     console.log("--handleEdit---")

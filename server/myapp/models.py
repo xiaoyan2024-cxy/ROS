@@ -53,6 +53,7 @@ class Algorithm(models.Model):
         ("1", "异常"),
     )
     id = models.BigAutoField(primary_key=True)
+    tag = models.CharField(max_length=100, blank=True, null=True)
     title = models.CharField(max_length=105, blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
     version = models.CharField(max_length=50, blank=True, null=True)

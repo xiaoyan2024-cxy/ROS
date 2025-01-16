@@ -14,9 +14,14 @@ from myapp.utils import dict_fetchall
 @api_view(['GET'])
 def list_api(request):
     if request.method == 'GET':
-        algorithms = Task.objects.all().order_by('-create_time')
-        serializer = TaskSerializer(algorithms, many=True)
+        keyword = request.GET.get("keyword", None)
+        if keyword:
+            tasks = Task.objects.filter(title__contains=keyword).order_by('-create_time')
+        else:
+            tasks = Task.objects.all().order_by('-create_time')
+        serializer = TaskSerializer(tasks, many=True)
         return APIResponse(code=0, msg='查询成功', data=serializer.data)
+    
 
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
