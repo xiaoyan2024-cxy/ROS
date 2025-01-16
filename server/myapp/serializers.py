@@ -4,6 +4,7 @@ from myapp.models import (
     Thing,
     Classification,
     Algorithm,
+    Task,
     Tag,
     User,
     Comment,
@@ -78,6 +79,12 @@ class ClassificationSerializer(serializers.ModelSerializer):
 class AlgorithmSerializer(serializers.ModelSerializer):
     class Meta:
         model = Algorithm
+        fields = "__all__"
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
         fields = "__all__"
 
 

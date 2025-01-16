@@ -103,6 +103,7 @@ class Task(models.Model):
         ("2", "RAW_DATA_ERROR"),
     )
     id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     algorithm = models.ForeignKey(
         Algorithm, on_delete=models.CASCADE, blank=True, null=True

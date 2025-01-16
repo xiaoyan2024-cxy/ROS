@@ -29,6 +29,11 @@ urlpatterns = [
     path('admin/algorithm/update', views.admin.algorithm.update),
     path('admin/algorithm/delete', views.admin.algorithm.delete),
 
+    path('admin/task/list', views.admin.task.list_api),
+    path('admin/task/create', views.admin.task.create),
+    path('admin/task/update', views.admin.task.update),
+    path('admin/task/delete', views.admin.task.delete),
+
     path('admin/tag/list', views.admin.tag.list_api),
     path('admin/tag/create', views.admin.tag.create),
     path('admin/tag/update', views.admin.tag.update),

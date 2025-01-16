@@ -32,6 +32,11 @@
             <span>算法管理</span>
           </a-menu-item>
 
+          <a-menu-item key="task">
+            <layout-outlined/>
+            <span>任务管理</span>
+          </a-menu-item>
+
           <a-menu-item key="tag">
             <tag-outlined/>
             <span>标签管理</span>
