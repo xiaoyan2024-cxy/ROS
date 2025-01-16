@@ -71,7 +71,7 @@ class Algorithm(models.Model):
 
 
 class ROS(models.Model):
-    SOURCE_CHOICE = (
+    SOURCE_CHOICES = (
         ("0", "origin_bag"),
         ("1", "simulated_bag"),
     )
@@ -79,14 +79,14 @@ class ROS(models.Model):
         ("0", "正常"),
         ("1", "异常"),
     )
-
     id = models.BigAutoField(primary_key=True)
+    size=models.CharField(max_length=100, blank=True, null=True)
     uploader = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True, null=True)
     update_time = models.DateTimeField(auto_now_add=True, null=True)
-    source = models.CharField(max_length=1, choices=SOURCE_CHOICE, default="0")
+    source = models.CharField(max_length=1, choices=SOURCE_CHOICES, default="0")
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
 
     def __str__(self):
@@ -100,7 +100,7 @@ class Task(models.Model):
     EVALUATE_RESULT = (
         ("0", "SUCCESS"),
         ("1", "FAILED"),
-        ("0", "RAW_DATA_ERROR"),
+        ("2", "RAW_DATA_ERROR"),
     )
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
