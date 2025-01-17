@@ -144,6 +144,7 @@ class Classification(models.Model):
         db_table = "b_classification"
 
 
+
 class Thing(models.Model):
     STATUS_CHOICES = (
         ("0", "上架"),

@@ -60,6 +60,7 @@
                   <a-input placeholder="请输入" v-model:value="modal.form.title"></a-input>
                 </a-form-item>
               </a-col>
+
               <a-col span="12">
                 <a-form-item label="分类" name="classification">
                   <a-select placeholder="请选择"
@@ -70,6 +71,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
+
               <a-col span="12">
                 <a-form-item label="标签">
                   <a-select mode="multiple" placeholder="请选择" allowClear v-model:value="modal.form.tag">
@@ -79,6 +81,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
+
               <a-col span="24">
                 <a-form-item label="封面">
                   <a-upload-dragger
@@ -220,6 +223,7 @@ const modal = reactive({
     coverUrl: undefined,
     imageFile: undefined
   },
+
   rules: {
     title: [{ required: true, message: '请输入名称', trigger: 'change' }],
     classification: [{ required: true, message: '请选择分类', trigger: 'change' }],
@@ -261,6 +265,7 @@ const getCDataList = () => {
     modal.cData = res.data
   })
 }
+
 const getTagDataList = ()=> {
   listTagApi({}).then(res => {
     res.data.forEach((item, index) => {
@@ -328,6 +333,7 @@ const confirmDelete = (record: any) => {
         message.error(err.msg || '操作失败');
       });
 };
+
 
 const handleBatchDelete = () => {
   console.log(data.selectedRowKeys);
