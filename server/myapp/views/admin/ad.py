@@ -12,7 +12,10 @@ from myapp.serializers import AdSerializer
 def list_api(request):
     if request.method == 'GET':
         ads = Ad.objects.all().order_by('-create_time')
+
         serializer = AdSerializer(ads, many=True)
+        print("get all ads")
+        print(serializer.data)
         return APIResponse(code=0, msg='查询成功', data=serializer.data)
 
 

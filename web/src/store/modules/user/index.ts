@@ -1,5 +1,5 @@
 
-// defineStore 是 pinia 库提供的一个方法，用于定义一个存储模块（store
+// defineStore 是 pinia 库提供的一个方法，用于定义一个存储模块store
 import { defineStore } from 'pinia';
 import {loginApi as adminLogin} from '/@/api/admin/user';
 import {userLoginApi} from '/@/api/index/user';

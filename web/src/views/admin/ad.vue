@@ -25,10 +25,11 @@
           showTotal: (total) => `共${total}条数据`,
         }"
       >
-        <template #bodyCell="{ text, record, index, column }">
+        <template #bodyCell="{text, record, index, column }">
           <template v-if="column.key === 'imageUrl'">
             <img :src="text" style="width: 60px;height: 40px;"/>
           </template>
+
           <template v-if="column.key === 'operation'">
             <span>
               <a @click="handleEdit(record)">编辑</a>
@@ -171,6 +172,7 @@ const getList = () => {
       .then((res) => {
         data.loading = false;
         console.log(res);
+
         res.data.forEach((item: any, index: any) => {
           item.index = index + 1;
           if (item.image) {
@@ -248,6 +250,7 @@ const handleBatchDelete = () => {
       });
 };
 
+
 const handleOk = () => {
   myform.value?.validate()
       .then(() => {
@@ -256,6 +259,7 @@ const handleOk = () => {
           formData.append('link', modal.form.link);
         }
         if (modal.form.imageFile) {
+          //对应在model中定义的字段
           formData.append('image', modal.form.imageFile);
         }
         if (modal.editFlag) {

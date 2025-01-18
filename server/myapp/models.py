@@ -47,6 +47,40 @@ class Tag(models.Model):
         db_table = "b_tag"
 
 
+
+
+class Type(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = "b_type"
+
+"""
+Type类表示算法的类型,目前有四种
+安全性
+舒适性
+准确性
+鲁棒性
+
+路口选道正确性检测：安全性
+碰撞风险安全性检测：安全性 舒适性
+规划轨迹稳定性检测：安全性 舒适性
+车辆定位准确性检测：安全性 准确性
+
+tag:tagger名
+type:检测决策算法哪种性质
+image:算法描述文件上传路径
+file:算法文件存放目录
+status:算法状态 已完成|开发中
+user:开发者
+
+"""
+
 class Algorithm(models.Model):
     STATUS_CHOICES = (
         ("0", "正常"),
@@ -60,9 +94,12 @@ class Algorithm(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, null=True)
     update_time = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
-    classification = models.ForeignKey(
+    user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True
     )
+    type = models.ManyToManyField(Type, blank=True)
+    image = models.ImageField(upload_to="algorithm/", null=True)
+    file = models.FileField(upload_to="files/", null=True, blank=True)  
 
     def __str__(self):
         return self.description
@@ -158,6 +195,8 @@ class Thing(models.Model):
         null=True,
         related_name="classification_thing",
     )
+
+
     tag = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     cover = models.ImageField(upload_to="cover/", null=True)
