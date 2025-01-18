@@ -140,6 +140,7 @@ const constantRouterMap = [
       { path: 'overview', name: 'overview', component: () => import('/@/views/admin/overview.vue') },
       { path: 'order', name: 'order', component: () => import('/@/views/admin/order.vue') },
       { path: 'thing', name: 'thing', component: () => import('/@/views/admin/thing.vue') },
+      { path: 'data', name: 'data', component: () => import('/@/views/admin/data.vue') },
       { path: 'comment', name: 'comment', component: () => import('/@/views/admin/comment.vue') },
       { path: 'user', name: 'user', component: () => import('/@/views/admin/user.vue') },
       { path: 'classification', name: 'classification', component: () => import('/@/views/admin/classification.vue') },
@@ -149,8 +150,6 @@ const constantRouterMap = [
       { path: 'ad', name: 'ad', component: () => import('/@/views/admin/ad.vue') },
       { path: 'notice', name: 'notice', component: () => import('/@/views/admin/notice.vue') },
       
-
-
       { path: 'loginLog', name: 'loginLog', component: () => import('/@/views/admin/login-log.vue') },
       { path: 'opLog', name: 'opLog', component: () => import('/@/views/admin/op-log.vue') },
       { path: 'errorLog', name: 'errorLog', component: () => import('/@/views/admin/error-log.vue') },

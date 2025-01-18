@@ -5,24 +5,21 @@ from rest_framework.decorators import api_view, authentication_classes
 from django.urls import reverse
 from myapp.auth.authentication import AdminTokenAuthtication
 from myapp.handler import APIResponse
-from myapp.models import Algorithm
+from myapp.models import ROS
 from myapp.permission.permission import isDemoAdminUser
-from myapp.serializers import AlgorithmSerializer
+from myapp.serializers import ROSSerializer
 from myapp.utils import dict_fetchall
-
-
 
 @api_view(['GET'])
 def list_api(request):
     if request.method == 'GET':
         keyword = request.GET.get("keyword", None)
         if keyword:
-            algorithms = Algorithm.objects.filter(title__contains=keyword).order_by('-create_time')
+            ros_data = ROS.objects.filter(name__contains=keyword).order_by('-create_time')
         else:
-            algorithms = Algorithm.objects.all().order_by('-create_time')
-        serializer = AlgorithmSerializer(algorithms, many=True)
+            ros_data = ROS.objects.all().order_by('-create_time')
+        serializer = ROSSerializer(ros_data, many=True)
         return APIResponse(code=0, msg='查询成功', data=serializer.data)
-
 
 
 @api_view(['POST'])
@@ -31,13 +28,13 @@ def create(request):
     # if isDemoAdminUser(request):
     #     return APIResponse(code=1, msg='演示帐号无法操作')
     
-    print("----inside Algorithm create----")
+    print("----inside ROS create----")
     print(request.data)
-    algorithms = Algorithm.objects.filter(title=request.data['title'])
+    ros_data = ROS.objects.filter(name=request.data['name'])
 
-    if len(algorithms) > 0:
+    if len(ros_data) > 0:
         return APIResponse(code=1, msg='该名称已存在')
-    serializer = AlgorithmSerializer(data=request.data)
+    serializer = ROSSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -45,24 +42,18 @@ def create(request):
 
     return APIResponse(code=1, msg='创建失败')
 
-
 @api_view(['POST'])
 @authentication_classes([AdminTokenAuthtication])
 def update(request):
     # if isDemoAdminUser(request):
     #     return APIResponse(code=1, msg='演示帐号无法操作')
-
     try:
-        print("request.GET in /myapp/admin/classification/update")
-        print(request.GET)
-        print(request.data)
-
         pk = request.GET.get('id', -1)
-        algorithms = Algorithm.objects.get(pk=pk)
-    except Algorithm.DoesNotExist:
+        ros_data = ROS.objects.get(pk=pk)
+    except ROS.DoesNotExist:
         return APIResponse(code=1, msg='对象不存在')
 
-    serializer = AlgorithmSerializer(algorithms, data=request.data)
+    serializer = ROSSerializer(ros_data, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return APIResponse(code=0, msg='更新成功', data=serializer.data)
@@ -79,7 +70,7 @@ def delete(request):
         ids = request.GET.get('ids')
         ids_arr = ids.split(',')
    
-        Algorithm.objects.filter(Q(id__in=ids_arr)).delete()
-    except Algorithm.DoesNotExist:
+        ROS.objects.filter(Q(id__in=ids_arr)).delete()
+    except ROS.DoesNotExist:
         return APIResponse(code=1, msg='对象不存在')
     return APIResponse(code=0, msg='删除成功')

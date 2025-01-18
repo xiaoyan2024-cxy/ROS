@@ -40,6 +40,11 @@ urlpatterns = [
     path("admin/type/update", views.admin.type.update),
     path("admin/type/delete", views.admin.type.delete),
 
+    path("admin/data/list", views.admin.data.list_api),
+    path("admin/data/create", views.admin.data.create),
+    path("admin/data/update", views.admin.data.update),
+    path("admin/data/delete", views.admin.data.delete),
+
     
     path("admin/record/list", views.admin.record.list_api),
     path("admin/record/create", views.admin.record.create),

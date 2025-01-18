@@ -23,6 +23,11 @@
             <span>菜品管理</span>
           </a-menu-item>
 
+          <a-menu-item key="data">
+            <database-outlined />
+            <span>数据管理</span>
+          </a-menu-item>
+
           <a-menu-item key="classification">
             <layout-outlined />
             <span>分类管理</span>
@@ -60,24 +65,25 @@
           </a-sub-menu>
 
 
-          <a-menu-item key="tag">
+          <!-- <a-menu-item key="tag">
             <tag-outlined />
             <span>标签管理</span>
-          </a-menu-item>
-          <a-menu-item key="order">
+          </a-menu-item> -->
+
+          <!-- <a-menu-item key="order">
             <dollar-outlined />
             <span>订单管理</span>
-          </a-menu-item>
-          <a-menu-item key="comment">
+          </a-menu-item> -->
+          <!-- <a-menu-item key="comment">
             <comment-outlined />
             <span>评论管理</span>
-          </a-menu-item>
+          </a-menu-item> -->
           <a-menu-item key="user">
             <user-outlined />
             <span>用户管理</span>
           </a-menu-item>
 
-          <a-sub-menu>
+          <!-- <a-sub-menu>
             <template #icon>
               <folder-outlined />
             </template>
@@ -90,7 +96,7 @@
               <appstore-outlined />
               <span>通知公告</span>
             </a-menu-item>
-          </a-sub-menu>
+          </a-sub-menu> -->
 
           <a-sub-menu>
             <template #icon>

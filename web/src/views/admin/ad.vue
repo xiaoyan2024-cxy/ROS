@@ -68,15 +68,18 @@
                     <p class="ant-upload-text">
                       请选择要上传的广告图片
                     </p>
+                    
                   </a-upload-dragger>
                 </a-form-item>
               </a-col>
+
               <a-col span="24">
                 <a-form-item label="跳转链接" name="link">
                   <a-input placeholder="请输入" v-model:value="modal.form.link"/>
                 </a-form-item>
               </a-col>
             </a-row>
+
 
           </a-form>
         </div>
@@ -123,12 +126,14 @@ const beforeUpload = (file: File) => {
   // 改文件名
   const fileName = new Date().getTime().toString() + '.' + file.type.substring(6);
   const copyFile = new File([file], fileName);
+  console.log("---beforeUpload in ad------")
+  console.log("copyFile type:", copyFile.constructor.name); // 打印 copyFile 的类型
   console.log(copyFile);
   modal.form.imageFile = copyFile;
   return false;
 };
 
-const fileList = ref([]);
+// const fileList = ref([]);
 
 // 页面数据
 const data = reactive({
@@ -148,9 +153,7 @@ const modal = reactive({
   title: '',
   form: {
     id: undefined,
-    image: undefined,
     imageFile: undefined,
-    imageUrl: undefined,
     link: undefined,
   },
   rules: {
@@ -172,13 +175,13 @@ const getList = () => {
       .then((res) => {
         data.loading = false;
         console.log(res);
-
         res.data.forEach((item: any, index: any) => {
           item.index = index + 1;
           if (item.image) {
             item.imageUrl = BASE_URL + item.image
           }
         });
+
         data.list = res.data;
       })
       .catch((err) => {
@@ -204,8 +207,8 @@ const handleAdd = () => {
   for (const key in modal.form) {
     modal.form[key] = undefined;
   }
-  modal.form.image = undefined
 };
+
 const handleEdit = (record: any) => {
   resetModal();
   modal.visile = true;
@@ -218,7 +221,6 @@ const handleEdit = (record: any) => {
   for (const key in record) {
     modal.form[key] = record[key];
   }
-  modal.form.image = undefined
 };
 
 const confirmDelete = (record: any) => {
@@ -261,6 +263,7 @@ const handleOk = () => {
         if (modal.form.imageFile) {
           //对应在model中定义的字段
           formData.append('image', modal.form.imageFile);
+          console
         }
         if (modal.editFlag) {
           updateApi({

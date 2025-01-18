@@ -81,8 +81,8 @@ user:开发者
 
 class Algorithm(models.Model):
     STATUS_CHOICES = (
-        ("0", "正常"),
-        ("1", "异常"),
+        ("0", "已完成"),
+        ("1", "开发中"),
     )
     id = models.BigAutoField(primary_key=True)
     label = models.CharField(max_length=100, blank=True, null=True)
@@ -95,10 +95,9 @@ class Algorithm(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True
     )
-
     type = models.ManyToManyField(Type, blank=True)
     image = models.ImageField(upload_to="algorithm/", null=True)
-    file = models.FileField(upload_to="files/", null=True, blank=True)  
+    file = models.FileField(upload_to="files/", null=True, blank=True) 
 
     def __str__(self):
         return self.description
@@ -107,31 +106,33 @@ class Algorithm(models.Model):
         db_table = "b_algorithm"
 
 
+
 class ROS(models.Model):
     SOURCE_CHOICES = (
         ("0", "origin_bag"),
         ("1", "simulated_bag"),
     )
+    
     STATUS_CHOICES = (
         ("0", "正常"),
         ("1", "异常"),
     )
     id = models.BigAutoField(primary_key=True)
     size = models.CharField(max_length=100, blank=True, null=True)
-    uploader = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField(max_length=100, blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
+    uploader = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True, null=True)
     update_time = models.DateTimeField(auto_now_add=True, null=True)
     source = models.CharField(max_length=1, choices=SOURCE_CHOICES, default="0")
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
+    bag_file = models.FileField(upload_to="bag_files/", null=True, blank=True)  # 新增字段
 
     def __str__(self):
         return self.description
 
     class Meta:
         db_table = "b_ros"
-
 
 class Task(models.Model):
     EVALUATE_RESULT = (

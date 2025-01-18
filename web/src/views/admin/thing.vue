@@ -184,6 +184,8 @@ const columns = reactive([
   },
 ]);
 
+
+
 const beforeUpload = (file: File) => {
   // 改文件名
   const fileName = new Date().getTime().toString() + '.' + file.type.substring(6);
@@ -312,6 +314,7 @@ const handleAdd = () => {
   }
   modal.form.cover = undefined
 };
+
 const handleEdit = (record: any) => {
   resetModal();
   modal.visile = true;
@@ -344,7 +347,6 @@ const confirmDelete = (record: any) => {
       });
 };
 
-
 const handleBatchDelete = () => {
   console.log(data.selectedRowKeys);
   if (data.selectedRowKeys.length <= 0) {
@@ -375,6 +377,7 @@ const handleOk = () => {
         if (modal.form.classification) {
           formData.append('classification', modal.form.classification)
         }
+        
         if (modal.form.tag) {
           modal.form.tag.forEach(function (value) {
             if(value){
