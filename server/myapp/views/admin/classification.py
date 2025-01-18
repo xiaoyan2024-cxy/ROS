@@ -16,6 +16,9 @@ def list_api(request):
     if request.method == 'GET':
         classifications = Classification.objects.all().order_by('-create_time')
         serializer = ClassificationSerializer(classifications, many=True)
+        print("all classifications")
+        print(serializer.data)
+        # 返回所有完整classification数据
         return APIResponse(code=0, msg='查询成功', data=serializer.data)
 
 

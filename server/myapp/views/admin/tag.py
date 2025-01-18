@@ -14,6 +14,8 @@ def list_api(request):
     if request.method == 'GET':
         tags = Tag.objects.all().order_by('-create_time')
         serializer = TagSerializer(tags, many=True)
+        print("---all tags---")
+        print(serializer.data)
         return APIResponse(code=0, msg='查询成功', data=serializer.data)
 
 

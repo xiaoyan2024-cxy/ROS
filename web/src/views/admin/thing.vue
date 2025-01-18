@@ -81,7 +81,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-
+              
               <a-col span="24">
                 <a-form-item label="封面">
                   <a-upload-dragger
@@ -105,17 +105,19 @@
                   </a-upload-dragger>
                 </a-form-item>
               </a-col>
-
+              
               <a-col span="24">
                 <a-form-item label="简介">
                   <a-textarea placeholder="请输入" v-model:value="modal.form.description"></a-textarea>
                 </a-form-item>
               </a-col>
+              
               <a-col span="12">
                 <a-form-item label="定价" name="price">
                   <a-input-number  placeholder="请输入" :min="0" v-model:value="modal.form.price" style="width: 100%;"></a-input-number>
                 </a-form-item>
               </a-col>
+
               <a-col span="12">
                 <a-form-item label="状态" name="status">
                   <a-select placeholder="请选择" allowClear v-model:value="modal.form.status">
@@ -124,6 +126,7 @@
                   </a-select>
                 </a-form-item>
               </a-col>
+
             </a-row>
           </a-form>
         </div>
@@ -185,10 +188,12 @@ const beforeUpload = (file: File) => {
   // 改文件名
   const fileName = new Date().getTime().toString() + '.' + file.type.substring(6);
   const copyFile = new File([file], fileName);
+  console.log("--copyFile--")
   console.log(copyFile);
   modal.form.imageFile = copyFile;
   return false;
 };
+
 
 // 文件列表
 const fileList = ref<any[]>([]);
@@ -221,9 +226,11 @@ const modal = reactive({
     status: undefined,
     cover: undefined,
     coverUrl: undefined,
-    imageFile: undefined
+    imageFile: undefined,
+    description:undefined,
   },
 
+  
   rules: {
     title: [{ required: true, message: '请输入名称', trigger: 'change' }],
     classification: [{ required: true, message: '请选择分类', trigger: 'change' }],
@@ -263,6 +270,8 @@ const getDataList = () => {
 const getCDataList = () => {
   listClassificationApi({}).then(res => {
     modal.cData = res.data
+    console.log("modal.cData")
+    console.log(modal.cData)
   })
 }
 
@@ -323,6 +332,7 @@ const handleEdit = (record: any) => {
   }
 };
 
+
 const confirmDelete = (record: any) => {
   console.log('delete', record);
   deleteApi({ ids: record.id })
@@ -372,6 +382,7 @@ const handleOk = () => {
             }
           })
         }
+
         if (modal.form.imageFile) {
           formData.append('cover', modal.form.imageFile)
         }
@@ -381,6 +392,7 @@ const handleOk = () => {
         if (modal.form.status) {
           formData.append('status', modal.form.status)
         }
+
         if (modal.editFlag) {
           updateApi({
             id: modal.form.id
@@ -410,6 +422,7 @@ const handleOk = () => {
       });
 };
 
+
 const handleCancel = () => {
   hideModal();
 };
@@ -424,6 +437,8 @@ const resetModal = () => {
 const hideModal = () => {
   modal.visile = false;
 };
+
+
 </script>
 
 <style scoped lang="less">

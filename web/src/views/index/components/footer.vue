@@ -11,9 +11,9 @@
       <span>
         <a style="color: rgb(174, 174, 174);">鲁ICP备12345678号</a>
       </span>
-      <span>&nbsp;&nbsp;鲁公网安备123456&nbsp;&nbsp;新出发零字第东123456号&nbsp;&nbsp;作者微信: lengqin1024</span>
+      <!-- <span>&nbsp;&nbsp;鲁公网安备123456&nbsp;&nbsp;新出发零字第东123456号&nbsp;&nbsp;作者微信: lengqin1024</span> -->
     </div>
-    <div class="address">2022-2023 © 梦想工作室 · All Rights Reserved</div>
+    <!-- <div class="address">2022-2023 © 梦想工作室 · All Rights Reserved</div> -->
   </div>
 </template>
 
