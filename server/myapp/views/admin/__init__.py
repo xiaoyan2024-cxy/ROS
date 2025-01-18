@@ -3,6 +3,7 @@ from myapp.views.admin.classification import *
 from myapp.views.admin.algorithm import *
 from myapp.views.admin.task import *
 from myapp.views.admin.tag import *
+from myapp.views.admin.type import *
 from myapp.views.admin.user import *
 from myapp.views.admin.comment import *
 from myapp.views.admin.record import *

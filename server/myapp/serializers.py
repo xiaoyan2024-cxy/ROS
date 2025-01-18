@@ -6,6 +6,7 @@ from myapp.models import (
     Algorithm,
     Task,
     Tag,
+    Type,
     User,
     Comment,
     Record,
@@ -93,6 +94,11 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = "__all__"
 
+class TypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Type
+        fields = "__all__"
+        
 
 class UserSerializer(serializers.ModelSerializer):
     create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False)

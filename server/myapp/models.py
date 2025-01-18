@@ -47,8 +47,6 @@ class Tag(models.Model):
         db_table = "b_tag"
 
 
-
-
 class Type(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, blank=True, null=True)
@@ -59,13 +57,13 @@ class Type(models.Model):
 
     class Meta:
         db_table = "b_type"
+        
 
 """
 Type类表示算法的类型,目前有四种
 安全性
 舒适性
 准确性
-鲁棒性
 
 路口选道正确性检测：安全性
 碰撞风险安全性检测：安全性 舒适性
@@ -87,7 +85,7 @@ class Algorithm(models.Model):
         ("1", "异常"),
     )
     id = models.BigAutoField(primary_key=True)
-    tag = models.CharField(max_length=100, blank=True, null=True)
+    label = models.CharField(max_length=100, blank=True, null=True)
     title = models.CharField(max_length=105, blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
     version = models.CharField(max_length=50, blank=True, null=True)
@@ -97,6 +95,7 @@ class Algorithm(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True
     )
+
     type = models.ManyToManyField(Type, blank=True)
     image = models.ImageField(upload_to="algorithm/", null=True)
     file = models.FileField(upload_to="files/", null=True, blank=True)  

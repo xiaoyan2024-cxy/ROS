@@ -7,7 +7,6 @@ enum URL {
     delete = '/myapp/admin/algorithm/delete',
 }
 
-
 const listApi = async (params: any) => get<any>({ url: URL.list, params: params, data: {}, headers: {} });
 const createApi = async (data: any) =>
     post<any>({ url: URL.create, params: {}, data: data, headers: { 'Content-Type': 'multipart/form-data;charset=utf-8' } });
