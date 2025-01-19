@@ -147,6 +147,7 @@ class Task(models.Model):
         ("0", "SUBITTED"),
         ("1", "RUNNING"),
         ("2", "FINISHED"),
+        ("3", "CANCELLED"),
     )
 
     id = models.BigAutoField(primary_key=True)
@@ -157,8 +158,8 @@ class Task(models.Model):
         Algorithm, on_delete=models.CASCADE, blank=True, null=True
     )
     data = models.ForeignKey(ROS, on_delete=models.CASCADE, blank=True, null=True)
-    create_time = models.DateTimeField(auto_now_add=True, null=True) 
-    update_time = models.DateTimeField(auto_now=True, null=True) 
+    create_time = models.DateTimeField(auto_now_add=True, null=True)
+    update_time = models.DateTimeField(auto_now=True, null=True)
     evaluate_result = models.CharField(
         max_length=1, choices=EVALUATE_RESULT, default="0"
     )

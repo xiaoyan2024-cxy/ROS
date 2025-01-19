@@ -35,7 +35,7 @@
 
                     <template v-if="column.key === 'operation'">
                         <span>
-                            <!-- <a @click="handleEdit(record)">编辑</a> -->
+                            <a @click="handleEdit(record)">编辑</a>
                             <a-divider type="vertical" />
                             <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
                                 <a href="#">删除</a>
@@ -110,7 +110,7 @@
 
 <script setup lang="ts">
 import { FormInstance, message } from 'ant-design-vue';
-import { createApi, listApi, updateApi, deleteApi } from '/@/api/admin/task';
+import { createApi, listApi, updateApi, deleteApi,cancelApi } from '/@/api/admin/task';
 import { listApi as listAlgorithmApi } from '/@/api/admin/algorithm'
 import { listApi as listDataApi } from '/@/api/admin/data'
 
@@ -175,7 +175,7 @@ const columns = reactive([
         dataIndex: 'status',
         key: 'status',
     },
-  
+
     {
         title: '任务结果',
         dataIndex: 'evaluate_result',
@@ -207,9 +207,9 @@ const columns = reactive([
 const TASK_STATUS = {
     "0": "SUBMITTED",
     "1": "RUNNING",
-    "2": "FINISHED"
+    "2": "FINISHED",
+    "3": "CANCELLED"
 };
-
 
 const EVALUATE_RESULT = {
     "0": "UNKNOWN",
@@ -221,7 +221,6 @@ const EVALUATE_RESULT = {
 const getResultText = (status) => {
     return EVALUATE_RESULT[status] || 'Unknown';
 };
-
 
 const getResultColor = (status) => {
     switch (status) {
@@ -236,7 +235,6 @@ const getResultColor = (status) => {
 
         case "3":
             return '#ffbf00'; // Yellow for RAW_DATA_ERROR
-
         default:
             return '#d9d9d9'; // Default color for any other status
     }
@@ -245,7 +243,6 @@ const getResultColor = (status) => {
 const getStatusText = (status) => {
     return TASK_STATUS[status] || 'Unknown';
 };
-
 const getStatusColor = (status) => {
     switch (status) {
         case "0":
@@ -254,6 +251,8 @@ const getStatusColor = (status) => {
             return '#2db7f5'; // Blue for Running
         case "2":
             return '#87d068'; // Green for Finished
+        case "3":
+            return '#ffbf00';
         default:
             return '#f50'; // Red for Unknown
     }
@@ -396,7 +395,7 @@ const confirmDelete = (record: any) => {
 
 const confirmCancel = (record: any) => {
     console.log('delete', record);
-    deleteApi({ ids: record.id })
+    cancelApi({ ids: record.id })
         .then((res) => {
             getDataList();
         })
@@ -404,7 +403,6 @@ const confirmCancel = (record: any) => {
             message.error(err.msg || '删除失败');
         });
 };
-
 
 
 const handleBatchDelete = () => {

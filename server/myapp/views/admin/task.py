@@ -76,5 +76,18 @@ def delete(request):
    
         Task.objects.filter(Q(id__in=ids_arr)).delete()
     except Task.DoesNotExist:
-        return APIResponse(code=1, msg='对象不存在')
+        return APIResponse(code=1, msg='删除对象不存在')
     return APIResponse(code=0, msg='删除成功')
+
+
+@api_view(['POST'])
+@authentication_classes([AdminTokenAuthtication])
+def cancel(request):
+    try:
+        ids = request.GET.get('ids')
+        ids_arr = ids.split(',')
+   
+        Task.objects.filter(Q(id__in=ids_arr)).update(status='3')
+    except Task.DoesNotExist:
+        return APIResponse(code=1, msg='取消对象不存在')
+    return APIResponse(code=0, msg='取消成功')
