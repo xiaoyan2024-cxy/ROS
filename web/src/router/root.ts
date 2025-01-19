@@ -6,7 +6,7 @@ const constantRouterMap = [
     path: '/',
     redirect: '/index'
   },
-  
+
   {
     path: '/index',
     name: 'index',
@@ -123,7 +123,7 @@ const constantRouterMap = [
       }
     ]
   },
-  
+
   {
     path: '/adminLogin',
     name: 'adminLogin',
@@ -145,11 +145,14 @@ const constantRouterMap = [
       { path: 'user', name: 'user', component: () => import('/@/views/admin/user.vue') },
       { path: 'classification', name: 'classification', component: () => import('/@/views/admin/classification.vue') },
       { path: 'algorithm', name: 'algorithm', component: () => import('/@/views/admin/algorithm.vue') },
-      { path: 'task', name: 'task', component: () => import('/@/views/admin/task.vue') },
+      { path: 'all_task', name: 'all_task', component: () => import('/@/views/admin/task/all_task.vue') },
+      { path: 'my_task', name: 'my_task', component: () => import('/@/views/admin/task/my_task.vue') },
+      { path: 'submit_task', name: 'submit_task', component: () => import('/@/views/admin/task/submit_task.vue') },
+
       { path: 'tag', name: 'tag', component: () => import('/@/views/admin/tag.vue') },
       { path: 'ad', name: 'ad', component: () => import('/@/views/admin/ad.vue') },
       { path: 'notice', name: 'notice', component: () => import('/@/views/admin/notice.vue') },
-      
+
       { path: 'loginLog', name: 'loginLog', component: () => import('/@/views/admin/login-log.vue') },
       { path: 'opLog', name: 'opLog', component: () => import('/@/views/admin/op-log.vue') },
       { path: 'errorLog', name: 'errorLog', component: () => import('/@/views/admin/error-log.vue') },

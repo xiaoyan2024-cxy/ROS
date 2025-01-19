@@ -4,8 +4,8 @@
         <div class="page-view">
             <div class="table-operations">
                 <a-space>
-                    <a-button type="primary" @click="handleAdd">新增</a-button>
-                    <a-button @click="handleBatchDelete">批量删除</a-button>
+                    <!-- <a-button type="primary" @click="handleAdd">新增</a-button>
+                    <a-button @click="handleBatchDelete">批量删除</a-button> -->
                     <a-input-search addon-before="任务名称" enter-button @search="onSearch" @change="onSearchChange" />
                 </a-space>
             </div>
@@ -35,7 +35,7 @@
 
                     <template v-if="column.key === 'operation'">
                         <span>
-                            <a @click="handleEdit(record)">编辑</a>
+                            <!-- <a @click="handleEdit(record)">编辑</a> -->
                             <a-divider type="vertical" />
                             <a-popconfirm title="确定删除?" ok-text="是" cancel-text="否" @confirm="confirmDelete(record)">
                                 <a href="#">删除</a>
@@ -111,6 +111,34 @@
 <script setup lang="ts">
 import { FormInstance, message } from 'ant-design-vue';
 import { createApi, listApi, updateApi, deleteApi } from '/@/api/admin/task';
+import { listApi as listAlgorithmApi } from '/@/api/admin/algorithm'
+import { listApi as listDataApi } from '/@/api/admin/data'
+
+onMounted(() => {
+    getAlgorithmList();
+    getUseDataList();
+});
+
+const displayModal = reactive({
+    AlgorithmData: [],
+    ROSData: [],
+});
+
+const getAlgorithmList = () => {
+    listAlgorithmApi({}).then(res => {
+        displayModal.AlgorithmData = res.data
+        console.log(displayModal.AlgorithmData)
+    })
+}
+
+const getUseDataList = () => {
+    listDataApi({}).then(res => {
+        res.data.forEach((item, index) => {
+            item.index = index + 1
+        })
+        displayModal.ROSData = res.data
+    })
+}
 
 // 指定列对应的数据字段名称
 const columns = reactive([
@@ -119,39 +147,50 @@ const columns = reactive([
         dataIndex: 'title',
         key: 'title',
     },
-    {
-        title: '任务描述',
-        dataIndex: 'description',
-        key: 'description',
-    },
+    // {
+    //     title: '任务描述',
+    //     dataIndex: 'description',
+    //     key: 'description',
+    // },
     {
         title: '使用数据',
-        dataIndex: 'ros',
-        key: 'ros',
+        dataIndex: 'data',
+        key: 'data',
+        customRender: ({ text }: { text: number }) => {
+            const dataItem = displayModal.ROSData.find(item => item.id === text);
+            return dataItem ? dataItem.name : text;
+        },
     },
-
+    {
+        title: '使用算法',
+        dataIndex: 'algorithm',
+        key: 'algorithm',
+        customRender: ({ text }: { text: number }) => {
+            const dataItem = displayModal.AlgorithmData.find(item => item.id === text);
+            return dataItem ? dataItem.title : text;
+        },
+    },
     {
         title: '状态',
         dataIndex: 'status',
         key: 'status',
     },
-
-    {
-        title: '算法',
-        dataIndex: 'algorithm',
-        key: 'algorithm',
-    },
-
+  
     {
         title: '任务结果',
         dataIndex: 'evaluate_result',
         key: 'evaluate_result',
     },
-
     {
         title: '更新时间',
         dataIndex: 'update_time',
         key: 'update_time'
+    },
+
+    {
+        title: '提交时间',
+        dataIndex: 'create_time',
+        key: 'create_time'
     },
 
     {
@@ -255,12 +294,12 @@ onMounted(() => {
 });
 
 const onSearch = () => {
-  getDataList();
+    getDataList();
 };
 
 const onSearchChange = (e: Event) => {
-  data.keyword = e?.target?.value;
-  console.log(data.keyword);
+    data.keyword = e?.target?.value;
+    console.log(data.keyword);
 };
 
 // getDataList方法用于从服务器获取数据并填充到表格中。

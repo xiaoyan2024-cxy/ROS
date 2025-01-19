@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class User(models.Model):
@@ -57,7 +58,7 @@ class Type(models.Model):
 
     class Meta:
         db_table = "b_type"
-        
+
 
 """
 Type类表示算法的类型,目前有四种
@@ -79,6 +80,7 @@ user:开发者
 
 """
 
+
 class Algorithm(models.Model):
     STATUS_CHOICES = (
         ("0", "已完成"),
@@ -92,12 +94,10 @@ class Algorithm(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, null=True)
     update_time = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, null=True
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     type = models.ManyToManyField(Type, blank=True)
     image = models.ImageField(upload_to="algorithm/", null=True)
-    file = models.FileField(upload_to="files/", null=True, blank=True) 
+    file = models.FileField(upload_to="files/", null=True, blank=True)
 
     def __str__(self):
         return self.description
@@ -106,13 +106,12 @@ class Algorithm(models.Model):
         db_table = "b_algorithm"
 
 
-
 class ROS(models.Model):
     SOURCE_CHOICES = (
         ("0", "origin_bag"),
         ("1", "simulated_bag"),
     )
-    
+
     STATUS_CHOICES = (
         ("0", "正常"),
         ("1", "异常"),
@@ -126,13 +125,16 @@ class ROS(models.Model):
     update_time = models.DateTimeField(auto_now_add=True, null=True)
     source = models.CharField(max_length=1, choices=SOURCE_CHOICES, default="0")
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="0")
-    bag_file = models.FileField(upload_to="bag_files/", null=True, blank=True)  # 新增字段
+    bag_file = models.FileField(
+        upload_to="bag_files/", null=True, blank=True
+    )  # 新增字段
 
     def __str__(self):
         return self.description
 
     class Meta:
         db_table = "b_ros"
+
 
 class Task(models.Model):
     EVALUATE_RESULT = (
@@ -146,18 +148,25 @@ class Task(models.Model):
         ("1", "RUNNING"),
         ("2", "FINISHED"),
     )
+
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, blank=True, null=True)
+    description = models.CharField(max_length=100, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     algorithm = models.ForeignKey(
         Algorithm, on_delete=models.CASCADE, blank=True, null=True
     )
-    ros = models.ForeignKey(ROS, on_delete=models.CASCADE, blank=True, null=True)
-    description = models.CharField(max_length=100, blank=True, null=True)
-    create_time = models.DateTimeField(auto_now_add=True, null=True)
-    update_time = models.DateTimeField(null=True)
+    data = models.ForeignKey(ROS, on_delete=models.CASCADE, blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True, null=True) 
+    update_time = models.DateTimeField(auto_now=True, null=True) 
     evaluate_result = models.CharField(
         max_length=1, choices=EVALUATE_RESULT, default="0"
+    )
+    evaluate_start_time = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(30)], null=True, blank=True
+    )
+    evaluate_end_time = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(30)], null=True, blank=True
     )
     status = models.CharField(max_length=1, choices=TASK_STATUS, default="0")
 
@@ -181,7 +190,6 @@ class Classification(models.Model):
         db_table = "b_classification"
 
 
-
 class Thing(models.Model):
     STATUS_CHOICES = (
         ("0", "上架"),
@@ -195,7 +203,6 @@ class Thing(models.Model):
         null=True,
         related_name="classification_thing",
     )
-
 
     tag = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=100, blank=True, null=True)

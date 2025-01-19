@@ -47,43 +47,28 @@
             <template #icon>
               <folder-outlined />
             </template>
-            
             <template #title>任务管理</template>
-            <a-menu-item key="task">
+            <a-menu-item key="all_task">
               <appstore-outlined />
               <span>所有任务</span>
             </a-menu-item>
-            <!-- <a-menu-item key="task">
+            <a-menu-item key="my_task">
               <appstore-outlined />
               <span>我的任务</span>
             </a-menu-item>
-            <a-menu-item key="task">
+            <a-menu-item key="submit_task">
               <appstore-outlined />
               <span>提交任务</span>
-            </a-menu-item> -->
-            
+            </a-menu-item>
           </a-sub-menu>
 
-
-          <!-- <a-menu-item key="tag">
-            <tag-outlined />
-            <span>标签管理</span>
-          </a-menu-item> -->
-
-          <!-- <a-menu-item key="order">
-            <dollar-outlined />
-            <span>订单管理</span>
-          </a-menu-item> -->
-          <!-- <a-menu-item key="comment">
-            <comment-outlined />
-            <span>评论管理</span>
-          </a-menu-item> -->
           <a-menu-item key="user">
             <user-outlined />
             <span>用户管理</span>
           </a-menu-item>
 
           <!-- <a-sub-menu>
+
             <template #icon>
               <folder-outlined />
             </template>
@@ -96,7 +81,7 @@
               <appstore-outlined />
               <span>通知公告</span>
             </a-menu-item>
-          </a-sub-menu> -->
+          </a-sub-menu>  -->
 
           <a-sub-menu>
             <template #icon>
@@ -174,8 +159,6 @@ const handleClick = ({ item, key, keyPath }) => {
     name: key,
   })
 }
-
-
 const handlePreview = () => {
   let text = router.resolve({ name: 'index' })
   window.open(text.href, '_blank')
@@ -195,7 +178,6 @@ const handleLogout = () => {
 
 </script>
 <style scoped lang="less">
-// header样式
 .header {
   display: flex;
   flex-direction: row;

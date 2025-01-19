@@ -59,6 +59,12 @@
                                     </a-upload-dragger>
                                 </a-form-item>
                             </a-col>
+<!-- 
+                            <a-col span="12">
+                                <a-form-item label="数据大小">
+                                    <a-textarea placeholder="请输入" v-model:value="modal.form.size"></a-textarea>
+                                </a-form-item>
+                            </a-col> -->
 
                             <a-col span="24">
                                 <a-form-item label="描述">
@@ -118,7 +124,7 @@ const columns = reactive([
     },
 
     {
-        title: '数据量',
+        title: '数据大小',
         dataIndex: 'size',
         key: 'size'
     },
@@ -154,6 +160,7 @@ const beforeUploadFile = (file: File) => {
     console.log("--copyFile--")
     console.log(copyFile);
     modal.form.file = copyFile;
+
 
     const fileSizeInMB = (file.size / 1024 / 1024).toFixed(2); // 转换为 MB 并保留两位小数
     modal.form.size = `${fileSizeInMB}MB`;
