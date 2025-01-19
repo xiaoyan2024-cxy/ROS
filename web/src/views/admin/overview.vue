@@ -75,19 +75,6 @@
         <div style="height: 300px;" ref="visitChartDiv"></div>
       </a-card>
 
-<!--      <a-row :gutter="[20,20]">-->
-<!--        <a-col :sm="24" :md="24" :lg="12">-->
-<!--          <a-card title="热门菜品排名" style="flex:1;">-->
-<!--            <div style="height: 300px;" ref="barChartDiv"></div>-->
-<!--          </a-card>-->
-<!--        </a-col>-->
-<!--        <a-col :sm="24" :md="24" :lg="12">-->
-<!--          <a-card title="热门分类比例" style="flex:1;">-->
-<!--            <div style="height: 300px;" ref="pieChartDiv"></div>-->
-<!--          </a-card>-->
-<!--        </a-col>-->
-<!--      </a-row>-->
-
     </div>
   </a-spin>
 
@@ -106,6 +93,7 @@ const barChartDiv = ref()
 const pieChartDiv = ref()
 
 let visitChart, barChart, pieChart;
+
 
 let tdata = reactive({
   data: {}

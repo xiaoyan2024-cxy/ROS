@@ -100,6 +100,7 @@ def count(request):
             'order_cancel_count': order_cancel_count,
             'visit_data': visit_data
         }
+        
         return APIResponse(code=0, msg='查询成功', data=data)
 
 

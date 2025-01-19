@@ -9,6 +9,10 @@ urlpatterns = [
     # 后台管理api
     path("admin/overview/count", views.admin.overview.count),
     path("admin/overview/sysInfo", views.admin.overview.sysInfo),
+    
+    path("admin/analysis/count", views.admin.analysis.count),
+    path("admin/analysis/sysInfo", views.admin.analysis.sysInfo),
+    
     path("admin/thing/list", views.admin.thing.list_api),
     path("admin/thing/detail", views.admin.thing.detail),
     path("admin/thing/create", views.admin.thing.create),

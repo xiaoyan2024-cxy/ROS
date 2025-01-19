@@ -28,10 +28,10 @@
             <span>数据管理</span>
           </a-menu-item>
 
-          <a-menu-item key="classification">
+          <!-- <a-menu-item key="classification">
             <layout-outlined />
             <span>分类管理</span>
-          </a-menu-item>
+          </a-menu-item> -->
 
           <a-menu-item key="algorithm">
             <layout-outlined />
@@ -102,10 +102,17 @@
             </a-menu-item>
           </a-sub-menu>
 
-          <a-menu-item key="overview">
+          <!-- <a-menu-item key="overview">
+            <home-outlined />
+            <span>统计分析</span>
+          </a-menu-item> -->
+
+          <a-menu-item key="analysis">
             <home-outlined />
             <span>统计分析</span>
           </a-menu-item>
+
+
           <a-menu-item key="sysInfo">
             <info-circle-outlined />
             <span>系统信息</span>
